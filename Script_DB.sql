@@ -1,6 +1,6 @@
-Drop table Client;
-Drop table Producte;
-Drop table Fotografies;
+Drop table if exists Fotografies;
+Drop table if exists Producte;
+Drop table if exists Client;
 
 CREATE TABLE Client ( 
   id smallint primary key auto_increment,
