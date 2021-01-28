@@ -45,4 +45,5 @@ CREATE TABLE Fotografies (
 
 ALTER TABLE Fotografies
   ADD CONSTRAINT FK_Producte
-  FOREIGN KEY (idProducte) REFERENCES Producte(id);
+  FOREIGN KEY (idProducte) REFERENCES Producte(id)
+  ON DELETE CASCADE;
