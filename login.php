@@ -8,21 +8,23 @@
 		$user = $_POST['user'];
 		$pass = $_POST['pass'];
 
-		//Consulta BD
+		//Comprobar nombre de usuario o email
 		$sql = "SELECT * FROM Client where usuari=? || email=?";
 		$statement=$db->prepare($sql);
 		$statement->execute(array($user, $user));
 
 		while($row=$statement->fetch(PDO::FETCH_ASSOC)){
+
+			//Comprobar contraseña, iniciamos sesión
 			if (password_verify($pass, $row['password'])) {
+				$statement->closeCursor();
 				$_SESSION['userId'] = $row['id'];
 				$_SESSION['username'] = $row['nom'];
 				header('Location: private.php');
 			}
-			else {
-				echo 'Login failed!';
-			}
 		}
+		$statement->closeCursor();
+		echo 'Login failed!';
 	}
 ?>
 

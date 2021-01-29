@@ -6,7 +6,7 @@ CREATE TABLE Client (
   id smallint primary key auto_increment,
   nom varchar(30) not null, 
   cognom1 varchar(30) not null, 
-  cognom2 varchar(30), 
+  cognom2 varchar(30) not null, 
   usuari varchar(30) not null unique, 
   password varchar(60) not null, 
   email varchar(30) not null unique
