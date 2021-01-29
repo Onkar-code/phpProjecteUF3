@@ -7,16 +7,16 @@ CREATE TABLE Client (
   nom varchar(30) not null, 
   cognom1 varchar(30) not null, 
   cognom2 varchar(30), 
-  usuari varchar(30) not null, 
-  password varchar(50) not null, 
-  email varchar(30) not null 
+  usuari varchar(30) not null unique, 
+  password varchar(60) not null, 
+  email varchar(30) not null unique
 ); 
 
 CREATE TABLE Producte (
   id smallint primary key auto_increment,
   nom varchar(30) not null,
-  descripcio varchar(100) not null,
-  preu numeric(5,2) not null check (preu > 0),
+  descripcio varchar(100),
+  preu numeric(6,2) not null check (preu > 0),
   categoria varchar(30) not null,
   data_publicacio Date not null,
   visites int default 0,

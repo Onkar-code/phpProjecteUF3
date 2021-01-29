@@ -1,22 +1,36 @@
+<?php
+	session_start();
+
+?>
+
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Register</title>
+	<title>Registrarse</title>
 </head>
 <body>
-	<h2>Register</h2>
+	<h2>Registrarse</h2>
 	<form method="post" action="">
-        <label>Username</label>
+		<label>Nombre</label>
+        <input type="text" name="user" required /><br>
+
+		<label>Primer apellido</label>
+        <input type="text" name="user" required /><br>
+
+		<label>Segundo apellido</label>
+        <input type="text" name="user" required /><br>
+
+        <label>Nombre de usuario</label>
         <input type="text" name="user" required /><br>
 
         <label>Email</label>
         <input type="email" name="email" required /><br>
 
-        <label>Password</label>
+        <label>Contraseña</label>
         <input type="password" name="password" required /><br><br>
 
-	    <input type="submit" name="register" value="Register"></button>
-	    <input type="submit" name="login" value="I already have an account"></button>
-	</form>
+	    <input type="submit" name="register" value="Register" />
+	</form><br>
+	¿Ya tienes cuenta? <a href='login.php'>Haz login</a>
 </body>
 </html>

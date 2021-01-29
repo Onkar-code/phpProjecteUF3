@@ -4,23 +4,25 @@
 
 	//Si envía formulario
 	if (isset($_POST['send'])) {
-		if (isset($_POST['user']) && isset($_POST['pass'])) {
-			$user = $_POST['user'];
-			$pass = $_POST['pass'];
-			if (strcmp($user, "asdf") == 0 && strcmp($pass, "asdf") == 0) {
-				echo 'Login success!';
+		
+		$user = $_POST['user'];
+		$pass = $_POST['pass'];
+
+		//Consulta BD
+		$sql = "SELECT * FROM Client where usuari=? || email=?";
+		$statement=$db->prepare($sql);
+		$statement->execute(array($user, $user));
+
+		while($row=$statement->fetch(PDO::FETCH_ASSOC)){
+			if (password_verify($pass, $row['password'])) {
+				$_SESSION['userId'] = $row['id'];
+				$_SESSION['username'] = $row['nom'];
+				header('Location: private.php');
 			}
 			else {
 				echo 'Login failed!';
 			}
-		} else {
-			echo "Rellena todos los campos";	
 		}
-	}
-
-	//Si no tiene cuenta linkeamos al formulario de registro
-	if (isset($_POST['register'])) {
-		header('location: register.php');
 	}
 ?>
 
@@ -32,14 +34,15 @@
 <body>
 	<h2>Login</h2>
 	<form action="" method="POST">
-		<label>Username</label>
-        <input type="text" name="user" /><br>
+		<label>Nombre de usuario o email</label>
+        <input type="text" name="user" required /><br>
 
-        <label>Password</label>
-        <input type="password" name="pass" /><br><br>
+        <label>Contraseña</label>
+        <input type="password" name="pass" required /><br><br>
 
-		<input type="submit" name="send" value="Log in">
-		<input type="submit" name="register" value="I don't have an account yet">
-	</form>
+		<input type="submit" name="send" value="Log in" />
+		
+	</form><br>
+	<a href="register.php">No estoy registrado</a>
 </body>
 </html>
