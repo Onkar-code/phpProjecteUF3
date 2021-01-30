@@ -8,20 +8,18 @@
 	//Si envía formulario
 	if (isset($_POST['register'])) {
 
-		$message = '';
-
 		//Comprobamos si ya existe el nombre de usuario en la bd
 		$sql = "SELECT * FROM Client where usuari=?";
 		$statement=$db->prepare($sql);
 		$statement->execute(array($_POST['user']));
 
 		if ($statement->rowCount() > 0) {
-			$message = 'Lo sentimos, este nombre de usuario ya está en uso<br>';
-			$statement->closeCursor();
-			exit();
-		}
 
+			//Mensaje a mostrar en el HTML
+			$msgUserExists = 'Lo sentimos, este nombre de usuario ya está en uso<br>';
+		}
 		$statement->closeCursor();
+
 
 		//Comprobamos si ya existe el email en la bd
 		$sql = "SELECT * FROM Client where email=?";
@@ -29,31 +27,35 @@
 		$statement->execute(array($_POST['email']));
 
 		if ($statement->rowCount() > 0) {
-			$message .= 'Este correo electrónico ya está asociado a una cuenta<br>';
-			$statement->closeCursor();
-			exit();
+
+			//Mensaje a mostrar en el HTML
+			$msgEmailExists = 'Este correo electrónico ya está asociado a una cuenta<br>';
 		}
-
 		$statement->closeCursor();
 
-		//Encriptamos password
-		$_POST['pass'] = password_hash($_POST['pass'], PASSWORD_BCRYPT);
+		//Si esta todo OK
+		if (!isset($msgEmailExists) && !isset($msgUserExists)) {
+			//Encriptamos password
+			$_POST['pass'] = password_hash($_POST['pass'], PASSWORD_BCRYPT);
 
-		//Insertamos datos usuario en la bd
-		$sql = "INSERT INTO Client VALUES (?, ?, ?, ?, ?, ?)";
-		$statement=$db->prepare($sql);
+			//Nos preparamos para insertar los datos del usuario en la bd
+			$sql = "INSERT INTO Client (nom, cognom1, cognom2, usuari, password, email) VALUES (?, ?, ?, ?, ?, ?)";
+			$statement=$db->prepare($sql);
 
-		//FALTA BINDEAR, EJECUTAR Y COMPROBAR
-		unset($_POST['register']);
-		print_r($_POST);
-		$statement->execute($_POST);
+			//Le pasamos los valores del $_POST que ya estan ordenados como en la tabla Client de la bd
+			unset($_POST['register']);
+			print_r($_POST);
+			$statement->execute(array_values($_POST));
 
-		//Redireccionamos a la página del usuario
-		$_SESSION['userId'] = $statement->lastInsertId();
-		$_SESSION['username'] = $_POST['user'];
+			//Iniciamos sesión
+			$_SESSION['userId'] = $db->lastInsertId();
+			$_SESSION['username'] = $_POST['user'];
 
-		$statement->closeCursor();
-		header('Location: private.php');
+			$statement->closeCursor();
+
+			//Redirigimos al area privada directamente para que no hay que hacer login
+			header('Location: private.php');
+		}
 	}
 ?>
 
@@ -71,27 +73,30 @@
 	<h2>Registrarse</h2>
 	<form method="post" action="">
 		<label>Nombre<span>*</span></label>
-        <input type="text" name="name" required /><br>
+        <input type="text" name="name" required maxlength="30" /><br>
 
 		<label>Primer apellido<span>*</span></label>
-        <input type="text" name="surname1" required /><br>
+        <input type="text" name="surname1" required maxlength="30" /><br>
 
 		<label>Segundo apellido<span>*</span></label>
-        <input type="text" name="surname2" required /><br>
+        <input type="text" name="surname2" required maxlength="30" /><br>
 
         <label>Nombre de usuario<span>*</span></label>
-        <input type="text" name="user" required pattern="[\dA-Za-z]+" /> Sólo letras o números<br>
+        <input type="text" name="user" required maxlength="30" pattern="[\dA-Za-z]+" /> Sólo letras o números<br>
+        <!-- Mensaje a mostrar en caso de error -->
+		<?php if (isset($msgUserExists)) echo '<span>'.$msgUserExists.'</span>'; ?>
 
         <label>Contraseña<span>*</span></label>
         <input type="password" name="pass" placeholder="Ejemplo: 1234abCD" pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$" required /> 
         Mínimo 8 carácteres, mínimo una mayúscula, una minúscula y un dígito<br>
 
         <label>Email<span>*</span></label>
-        <input type="email" name="email" required /> ejemplo@ejemplo.com<br><br>
+        <input type="email" name="email" required maxlength="30" /> ejemplo@ejemplo.com<br>
+        <!-- Mensaje a mostrar en caso de error -->
+		<?php if (isset($msgEmailExists)) echo '<span>'.$msgEmailExists.'</span><br>'; ?>
 
 	    <input type="submit" name="register" value="Registrarme" />
 	</form><br>
 	¿Ya tienes cuenta? <a href='login.php'>Haz login</a><br>
-	<?php if (isset($message)) echo $message; ?>
 </body>
 </html>
