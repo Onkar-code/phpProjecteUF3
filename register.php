@@ -1,12 +1,13 @@
 <?php
 	//Hay que hacer comprobaciones de regex en el backend o se pueden hacer solo en el frontend con pattern y required?
+	//FALTA UPPER email
 	
-
 	session_start();
 	require_once('database/dbConnection_local.php');
 
 	//Si envía formulario
 	if (isset($_POST['register'])) {
+		echo $_POST['register'];
 
 		//Comprobamos si ya existe el nombre de usuario en la bd
 		$sql = "SELECT * FROM Client where usuari=?";
@@ -73,7 +74,7 @@
 	<h2>Registrarse</h2>
 	<form method="post" action="">
 		<label>Nombre<span>*</span></label>
-        <input type="text" name="name" required maxlength="30" /><br>
+        <input type="text" name="name" required maxlength="30" value="<?php if (isset($_POST['name'])) ?>"/><br>
 
 		<label>Primer apellido<span>*</span></label>
         <input type="text" name="surname1" required maxlength="30" /><br>
