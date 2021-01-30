@@ -1,0 +1,24 @@
+/*
+.productes-table{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-content: center;
+}
+
+.producte-individual {
+    display: inline-block;
+    margin: 10px 0 0 2%;
+    flex-grow: 1;
+    width: calc(100% * (1/5) - 10px - 1px);
+}
+*/
+
+.barra-navegacio{
+    margin-bottom: 20px;
+}
+
+.dropdown{
+    margin: 30px;
+    align-content: center;
+}
