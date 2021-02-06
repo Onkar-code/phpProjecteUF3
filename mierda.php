@@ -9,7 +9,7 @@
 		$numFiltros = 0;
 
 		//Comienzo SELECT
-		$sql = "SELECT * FROM Producte"
+		$sql = "SELECT * FROM Producte";
 
 		//Categoria
 		if (isset($_POST['categoria'])) {
@@ -33,7 +33,7 @@
 		}
 
 		//Preu minim
-		if (isset($_POST['preuMin'])) {
+		if (isset($_POST['precioMin'])) {
 			$numFiltros++;
 			if ($numFiltros > 0) {
 				$sql .= " WHERE ";
@@ -41,11 +41,11 @@
 			if ($numFiltros > 1) {
 				$sql .= " AND ";
 			}
-			$sql .= "preu > $_POST['preuMin']";
+			$sql .= "preu > $_POST['precioMin']";
 		}
 
 		//Preu max
-		if (isset($_POST['preuMax'])) {
+		if (isset($_POST['precioMax'])) {
 			$numFiltros++;
 			if ($numFiltros > 0) {
 				$sql .= " WHERE ";
@@ -53,20 +53,20 @@
 			if ($numFiltros > 1) {
 				$sql .= " AND ";
 			}
-			$sql .= "preu < $_POST['preuMax']";
+			$sql .= "preu < $_POST['precioMax']";
 		}
 
 		//Ordenar
 		$sql .= " ORDER BY ";
 
 		//preu
-		if(isset($_POST['ordenarPreu'])) {
-			$sql .= "preu " . $_POST['ordenarPreu'] . ", ";
+		if(isset($_POST['ordenarPrecio'])) {
+			$sql .= "preu " . $_POST['ordenarPrecio'] . ", ";
 		}
 
 		//Data
-		if(isset($_POST['ordenarData'])) {
-			$sql .= "data_publicacio" . $_POST['ordenarData'];
+		if(isset($_POST['ordenarFecha'])) {
+			$sql .= "data_publicacio" . $_POST['ordenarFecha'];
 		}
 
 		//Por defecto

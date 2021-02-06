@@ -1,44 +1,130 @@
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+  <link rel="stylesheet" href="/resources/demos/style.css">
+  <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+  <script src="app/app.js"></script>
+<form method="post" action="public.php">
+    <h3> Filtros </h3>
+    Categoria: <select name="categoria">
+        <option value="Todas"> Todas las categorias </option>
+        <option value="Libros">Libros</option>
+        <option value="Moviles">Moviles</option>
+        <option value="Videojuegos">Videojuegos</option>
+    </select><br><br>
 
-<!DOCTYPE html>
-<html>
-<head>
-	<title>Public zone</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="style/styles.css">
+    ¿Qué buscas? <input type="text" name="search" placeholder="Buscar por texto"/><br><br>
 
-</head>
-<body>
-    <!-- BARRA LOGIN/REGISTER -->
-    <div class="barra-navegacio">
-        <ul class="nav justify-content ">
-            <li class="nav-item ">
-                <a  href="login.php" class="nav-link active">Login</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link " href="register.php">Register</a>
-            </li>
-        </ul>
-    </div>
-   
-    <!-- Botons para filtrar por categoria -->
-    <form method="post" action="">
-        <label>Categorias</label>
-        <button type="submit" class="btn btn-primary" name="Libros" value="Libros">Libros</button>
-        <button type="submit" class="btn btn-primary" name="Moviles" value="Moviles" >Moviles</button>
-        <button type="submit" class="btn btn-primary" name="Videojuegos" value="Videojuegos">Videojuegos</button>
-    </form><br>
+    Rango de precio en €:
+    <input type="text" id="amount" name="RangoPrecio" readonly style="color:#000000; font-weight:bold;"><br><br>
+    <div id="slider-range" style="width: 300px;"></div>
+
+    <h3> Ordenación </h3>
+
+    Precio: <select name="ordenarPrecio">
+        <option value="ASC">ASC</option>
+        <option value="DESC">DESC</option>
+    </select><br><br>
+
+    Fecha: <select name="ordenarFecha">
+        <option value="ASC">ASC</option>
+        <option value="DESC">DESC</option>
+    </select><br><br>
+
+    Realizar consulta: <input type="submit" name="filtros" value="Enviar" />
     
-</body>
-</html>
+</form>
 
+<div class=productes-table></div>
 
-<?php 
+<?php
     require('database/dbConnection_local.php');
+       
+    if(!isset($_POST['filtros'])){
+        $sql = "SELECT * FROM producte";
+        $result=$db->query($sql);
+
+        if(!$result) { 
+            print"Error en la consulta.\n";
+        } else{ 
+            foreach($result as $valor) {
+                $array = [$valor["nom"],$valor["preu"],$valor["categoria"], $valor["data_publicacio"]];
+                createTable($array);
+            }
+        }
+    }else{
+        if(isset($_POST['categoria']) && isset($_POST['ordenarPrecio']) && isset($_POST['ordenarFecha']) && isset($_POST['search'])  && isset($_POST['RangoPrecio'])){
+
+            $consultaPreparad = false;
+            $sql = "SELECT * FROM producte";
+            $numFiltros = 0;
+
+            if ($_POST['categoria'] != "Todas"){
+                
+                $categoria=$_POST['categoria'];
+                
+                $sql .= " WHERE categoria='$categoria' ";
+
+                $numFiltros++;
+            }
+
+            //Buscar por palabra(s)
+            if ($_POST['search'] != ""){
+               
+                if ($numFiltros == 0) {
+                    $sql .= " WHERE ";
+                }
+                if ($numFiltros > 0) {
+                    $sql .= " AND ";
+                }
+                $sql .= " LOWER(nom) LIKE LOWER(?) OR LOWER(descripcio) LIKE LOWER(?) ";
+                $numFiltros++;
+                $consultaPreparad=true;
+            }
+            
+            //Rando de precio
+            if (isset($_POST['RangoPrecio'])) {
+
+                $amounts = explode(" - ", $_POST['RangoPrecio']);
+                $precioMin = $amounts[0];
+                $precioMax = $amounts[1];
+
+                if ($numFiltros == 0) {
+                    $sql .= " WHERE ";
+                }
+                if ($numFiltros > 0) {
+                    $sql .= " AND ";
+                }
+                $sql .= " preu BETWEEN $precioMin AND $precioMax ";
+                $numFiltros++;
+            }
+            //Ordenar
+            $precioORD = $_POST['ordenarPrecio'];
+            $fechaORD = $_POST['ordenarFecha'];
+            $sql .= " ORDER BY preu $precioORD, data_publicacio $fechaORD ";
+
+            //echo de la query
+            // echo $sql . '<br>';
+            if ($consultaPreparad){
+                $statement=$db->prepare($sql);
+		        $statement->execute(array("%".$_POST['search']."%", "%".$_POST['search']."%"));
+                while ( $result=$statement->fetch(PDO::FETCH_ASSOC)) {
+                    $array = [$result["nom"],$result["preu"],$result["categoria"], $result["data_publicacio"]];
+                    createTable($array);
+                }
+            }else{
+                $result=$db->query($sql);
+                if(!$result) { 
+                    print"Error en la consulta.\n";
+                } else{ 
+                    foreach($result as $valor) {
+                        $array = [$valor["nom"],$valor["preu"],$valor["categoria"], $valor["data_publicacio"]];
+                        createTable($array);
+                    }
+                }
+            }
+        }
+    }
     
-    //Crear Tabla
     function createTable($array) {
         //contenedor con imagen, propiedades e hipervínculo a la info de los Productos
         echo "<div class='producte-individual'><a href='producteInfo.php' > <div><img src='imagenes/imagenEjemplo.jpg' style='width:200px;height:100px;' ></div>";
@@ -49,41 +135,6 @@
             <li>" . $array[3] . "</li>
             </ul></div></div>";
     }
-
-    function main($db){
-        //Query zona publica por defecto
-        $tableProducte= "producte";
-
-        if (isset($_POST['Moviles'])){
-            $sql = "SELECT * FROM $tableProducte WHERE categoria = 'Moviles'";
-        }elseif(isset($_POST['Libros'])){
-            $sql = "SELECT * FROM $tableProducte WHERE categoria = 'Libros'";
-        }elseif(isset($_POST['Videojuegos'])){
-            $sql = "SELECT * FROM $tableProducte WHERE categoria = 'Videojuegos'";
-        }else{
-            $sql = "SELECT * FROM $tableProducte";
-        }
-
-    
-        
-        $result=$db->query($sql);
-
-        if(!$result) { 
-            print"Error en la consulta.\n";
-        } else{ 
-            // $array = array();
-            foreach($result as $valor) {
-                // array_push($array, $valor["nom"],$valor["preu"],$valor["categoria"], $valor["data_publicacio"]);
-                $array = [$valor["nom"],$valor["preu"],$valor["categoria"], $valor["data_publicacio"]];
-                createTable($array);
-                // $array = [];
-            }
-        }
-    }
-
-    echo "<div class=productes-table>";
-    main($db);
-    echo "</div>";
 
     //Estilos
     echo "<style>
@@ -105,18 +156,9 @@
     }
     </style>"
 
-
-    //mostrar una imagen y sus características DONE
-    //query mostrar por categoria DONE
     //TODO
-    //Insertar dropdown
-    //rehacer el switch (donde filtraré la categoria)
-    //recuperar los campos de busqueda para realizar la query completa (campos de nombre, precio min,max)
-    //query mostrar por nombre o descripcion 
-    //query mostrar por precio min, precio max o ambos
-    
-    //Ordenar por precio (ascendente)
-    //Ordenar por fecha (ascendente)
-    //mostrar fecha amigable (periodo desde que se publicó)
 
+    //mostrar fecha amigable (periodo desde que se publicó)
+    //echo de los filtros aplicados porque por defecto se reinician
 ?>
+
