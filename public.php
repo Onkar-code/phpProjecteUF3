@@ -128,7 +128,7 @@
     function createTable($array) {
         //contenedor con imagen, propiedades e hipervínculo a la info de los Productos
 
-        echo "<form method='POST' action='producteInfo.php'> <div class='producte-individual'><input type='submit' name='id' value=" . $array[4] . " > <div><img src='imagenes/". $array[4] . '_1' " style='width:200px;height:100px;' ></div>";
+        echo "<form method='POST' action='producteInfo.php'> <div class='producte-individual'><input type='submit' name='id' value=" . $array[4] . " > <div><img src='imagenes/". $array[4] . "_1.jpg style='width:200px;height:100px; ></div>";
 
         echo "<div><ul style='list-style-type:none;'> 
             <li>" . $array[0] . "</li></form>
