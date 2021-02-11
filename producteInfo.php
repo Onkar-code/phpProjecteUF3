@@ -1,3 +1,3 @@
 <?php
-    echo "Producte info";
+    echo $_POST["id"];
 ?>

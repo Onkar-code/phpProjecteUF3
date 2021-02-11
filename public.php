@@ -12,7 +12,7 @@
         <option value="Videojuegos">Videojuegos</option>
     </select><br><br>
 
-    ¿Qué buscas? <input type="text" name="search" placeholder="Buscar por texto"/><br><br>
+    ¿Qué buscas? <input type="text" name="search" placeholder="Buscar por texto"  value="<?php echo isset($_POST['search']) ? ($_POST['search']) : ''; ?>"/><br><br>
 
     Rango de precio en €:
     <input type="text" id="amount" name="RangoPrecio" readonly style="color:#000000; font-weight:bold;"><br><br>
@@ -117,7 +117,7 @@
                     print"Error en la consulta.\n";
                 } else{ 
                     foreach($result as $valor) {
-                        $array = [$valor["nom"],$valor["preu"],$valor["categoria"], $valor["data_publicacio"]];
+                        $array = [$valor["nom"],$valor["preu"],$valor["categoria"], $valor["data_publicacio"],$valor["id"]];
                         createTable($array);
                     }
                 }
@@ -127,9 +127,11 @@
     
     function createTable($array) {
         //contenedor con imagen, propiedades e hipervínculo a la info de los Productos
-        echo "<div class='producte-individual'><a href='producteInfo.php' > <div><img src='imagenes/imagenEjemplo.jpg' style='width:200px;height:100px;' ></div>";
+
+        echo "<form method='POST' action='producteInfo.php'> <div class='producte-individual'><input type='submit' name='id' value=" . $array[4] . " > <div><img src='imagenes/". $array[4] . '_1' " style='width:200px;height:100px;' ></div>";
+
         echo "<div><ul style='list-style-type:none;'> 
-            <li>" . $array[0] . "</li></a>
+            <li>" . $array[0] . "</li></form>
             <li>" . $array[1] . "</li>
             <li>" . $array[2] . "</li>
             <li>" . $array[3] . "</li>

@@ -1,0 +1,21 @@
+
+-TODO
+
+--Mostrar al usuario de los filtros aplicados (como un echo)
+--Rehacer la bd (Fotos-->Tabla Producto(Tres columbnas con las URL) (Eliminar la tabla fotografia)
+--direccion URL-?Imagenes/id_numeroimagen 
+--Rehacer nuevos Inserts
+--Añadir link al login y register
+--Añadir form con metodo post, action "nombre del archivo php" y con el parametro=id del producto
+--en la zona publica (individual) hacer la query del producto para sacar toda la info y mostrarla
+
+-Para las siguientes fases y si sobra tiempo (dejar los filtros aplicados en las Options, slider, etc)
+
+-BUGS
+-CATEGORIA + PALABRA -> NO FUNCIONA
+
+
+preguntar al profe:
+- si pueden ser 3 imagenes como minimo
+- si tiene que aplicarse varios filtros a la vez o si con aplicar uno ya es suficiente
+

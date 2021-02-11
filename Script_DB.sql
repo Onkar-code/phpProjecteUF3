@@ -21,12 +21,10 @@ CREATE TABLE Producte (
   data_publicacio Date not null,
   visites int default 0,
   idClient smallint not null,
-  numFotos int default 0
+  foto1 varchar(100) not null,
+  foto2 varchar(100) not null,
+  foto3 varchar(100) not null
 );
-
-ALTER TABLE Producte
-  ADD CONSTRAINT CHK_Fotos 
-  CHECK (numFotos < 4);
 
 ALTER TABLE Producte
   ADD CONSTRAINT CHK_Categoria 
@@ -35,15 +33,4 @@ ALTER TABLE Producte
 ALTER TABLE Producte
   ADD CONSTRAINT FK_Client
   FOREIGN KEY (idClient) REFERENCES Client(id)
-  ON DELETE CASCADE;
-
-CREATE TABLE Fotografies ( 
-  idFoto smallint primary key auto_increment,
-  idProducte smallint not null,
-  url varchar(100) 
-); 
-
-ALTER TABLE Fotografies
-  ADD CONSTRAINT FK_Producte
-  FOREIGN KEY (idProducte) REFERENCES Producte(id)
   ON DELETE CASCADE;
