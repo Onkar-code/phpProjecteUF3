@@ -15,7 +15,7 @@ CREATE TABLE Client (
 CREATE TABLE Producte (
   id smallint primary key auto_increment,
   nom varchar(30) not null,
-  descripcio varchar(100),
+  descripcio varchar(200),
   preu numeric(6,2) not null check (preu > 0),
   categoria varchar(30) not null,
   data_publicacio Date not null,
