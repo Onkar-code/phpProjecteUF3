@@ -1,7 +1,4 @@
-<?php
-	//Hay que hacer comprobaciones de regex en el backend o se pueden hacer solo en el frontend con pattern y required?
-	//FALTA UPPER email
-	
+<?php	
 	session_start();
 	require_once('database/dbConnection_local.php');
 
@@ -23,7 +20,7 @@
 
 
 		//Comprobamos si ya existe el email en la bd
-		$sql = "SELECT * FROM Client where email=?";
+		$sql = "SELECT * FROM Client where LOWER(email)=(?)";
 		$statement=$db->prepare($sql);
 		$statement->execute(array($_POST['email']));
 
