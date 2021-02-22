@@ -11,11 +11,14 @@
 -BUGS
 -CATEGORIA + PALABRA -> NO FUNCIONA
 
-'123456Ab'
+onkarsingh@gmail.com
+123456Ab
 
-'123456Ac'
+gabrielmaria@gmail.com
+123456Ac
 
-'123456Ad'
+jordiquesada@gmail.com
+123456Ad
 
 <input type='image'  value=" . $array[4] . " src='imagenes/". $array[4] . "_1.jpg' style='width:200px;height:300px;>
 

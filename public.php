@@ -3,6 +3,17 @@
   <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
   <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
   <script src="app/app.js"></script>
+
+<div class='loginRegister'>
+    <form method="POST" action="login.php">
+        <input type="submit" value="Login"></button>
+    </form>
+    
+    <form method="POST" action="register.php">
+        <input type="submit" value="Register"></button>
+    </form>
+</div>
+
 <form method="post" action="public.php">
     <div class="principal">
         <div class="filtros">
@@ -40,6 +51,7 @@
     
 </form>
 
+ 
 <div class=productes-table></div>
 
 <?php
@@ -47,7 +59,6 @@
        
     if(!isset($_POST['filtros']) || isset($_POST['sinFiltros']) ){
 
-     
         $sql = "SELECT * FROM producte";
         $result=$db->query($sql);
 
@@ -165,6 +176,13 @@
         margin: auto;
     }
 
+    .loginRegister{
+        
+        display:flex;
+        flex-wrap: wrap;
+        margin-top: 20px;
+    }
+
     .principal{
         display:flex;
     }
@@ -172,7 +190,6 @@
     .filtros{
         margin-right: 100px;
     }
-
     
     .productes-table{
         display: flex;
@@ -202,9 +219,5 @@
         //background-color: blue;
     </style>"
 
-    //TODO
-
-    //mostrar fecha amigable (periodo desde que se publicó)
-    //echo de los filtros aplicados porque por defecto se reinician
 ?>
 

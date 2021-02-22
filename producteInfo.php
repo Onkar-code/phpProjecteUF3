@@ -1,8 +1,11 @@
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js" integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ" crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous"></script>
+  
+  <form method="POST" action="public.php">
+        <input type="submit" value="Zona publica"></button>
+  </form>
 <?php
     require('database/dbConnection_local.php');
 
@@ -16,15 +19,32 @@
         producteIndividual($array);
     }
 
+    
 
     function producteIndividual($array) {
         //carrusel producte
-        echo "<div class='pic-ctn'>
-                    <img src='imagenes/". $array[6] . "' alt='' class='pic' style='width:200px;height:300px>
-                    <img src='imagenes/". $array[7] . "' alt='' class='pic' style='width:200px;height:300px>
-                    <img src='imagenes/". $array[8] . "' alt='' class='pic' style='width:200px;height:300px>
-                </div>";
-        
+        echo "<div id='carouselExampleControls' class='carousel slide' data-ride='carousel'>
+                    <div class='carousel-inner'>
+                    <div class='carousel-item active'>
+                        <img src='imagenes/". $array[6] . "' class='h-50 w-100' >
+                    </div>
+                    <div class='carousel-item'>
+                        <img src='imagenes/". $array[7] . "' class='h-50 w-100' >
+                    </div>
+                    <div class='carousel-item'>
+                        <img src='imagenes/". $array[8] . "'  class='h-50 w-100'  >
+                    </div>
+                    </div>
+                    <a class='carousel-control-prev' href='#carouselExampleControls' role='button' data-slide='prev'>
+                        <span class='carousel-control-prev-icon' aria-hidden='true'></span>
+                        <span class='sr-only'>Previous</span>
+                    </a>
+                    <a class='carousel-control-next' href='#carouselExampleControls' role='button' data-slide='next'>
+                        <span class='carousel-control-next-icon' aria-hidden='true'></span>
+                        <span class='sr-only'>Next</span>
+                    </a>
+              </div>";  
+
         //Tabla producte individual
         echo "<div class='table'><table class='cards-table'>
                 <thead>
@@ -57,7 +77,7 @@
             }
             .cards-table{
                 margin: auto;
-                width: 50%;
+                width: 70%;
                 border: 3px solid green;
                 padding: 10px;
                 border-collapse: separate;
@@ -68,63 +88,11 @@
             }
 
             #carouselExampleControls{
+                width: 200px;
+                hight: 300px;
                 margin: auto;
-                width: 300px;
-                hight: 500px;
                 padding-bottom: 10px;
             }
-
-            .pic-ctn {
-                width: 100vw;
-                height: 200px;
-            }
-
-            
-            @keyframes display {
-                0% {
-                transform: translateX(200px);
-                opacity: 0;
-                }
-                10% {
-                transform: translateX(0);
-                opacity: 1;
-                }
-                20% {
-                transform: translateX(0);
-                opacity: 1;
-                }
-                30% {
-                transform: translateX(-200px);
-                opacity: 0;
-                }
-                100% {
-                transform: translateX(-200px);
-                opacity: 0;
-                }
-            }
-            
-            .pic-ctn {
-                position: relative;
-                width: 100vw;
-                height: 300px;
-                margin-top: 15vh;
-            }
-            
-            .pic-ctn > img {
-                position: absolute;
-                top: 0;
-                left: calc(50% - 100px);
-                opacity: 0;
-                animation: display 10s infinite;
-            }
-            
-            img:nth-child(2) {
-                animation-delay: 2s;
-            }
-            img:nth-child(3) {
-                animation-delay: 4s;
-            }
-           
             </style>";
     }
 ?>
