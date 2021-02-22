@@ -5,11 +5,11 @@
   <script src="app/app.js"></script>
 
 <div class='loginRegister'>
-    <form method="POST" action="login.php">
+    <form action="login.php">
         <input type="submit" value="Login"></button>
     </form>
     
-    <form method="POST" action="register.php">
+    <form action="register.php">
         <input type="submit" value="Register"></button>
     </form>
 </div>
@@ -24,7 +24,7 @@
                 <option value="Moviles">Moviles</option>
                 <option value="Videojuegos">Videojuegos</option>
             </select><br><br>
-            ¿Qué buscas? <input type="text" name="search" placeholder="Buscar por texto"  value="<?php echo isset($_POST['search']) ? ($_POST['search']) : ''; ?>"/><br><br>
+            ¿Qué buscas? <input id="search" type="text" name="search" placeholder="Buscar por texto"  value="<?php echo isset($_POST['search']) ? ($_POST['search']) : ''; ?>"/><br><br>
 
             Rango de precio en €:
             <input type="text" id="amount" name="RangoPrecio" readonly style="color:#000000; font-weight:bold;"><br><br>
@@ -59,6 +59,7 @@
        
     if(!isset($_POST['filtros']) || isset($_POST['sinFiltros']) ){
 
+        $_POST['search'] = "";
         $sql = "SELECT * FROM producte";
         $result=$db->query($sql);
 
