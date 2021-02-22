@@ -14,7 +14,7 @@ INSERT INTO Producte(nom, descripcio, preu, categoria, data_publicacio, visites,
 
 INSERT INTO Producte(nom, descripcio, preu, categoria, data_publicacio, visites, idClient, foto1, foto2, foto3) VALUES ('Samsung Galaxy A21s','RAM, 128 GB de Memoria Interna, WiFi, Procesador Octa Core, Cámara Principal de 48 MP, Android 10.0. Quiero pasarme a Iphone', 1199.99, 'Moviles', "2020-01-23", default, 3,'7_1.jpg','7_2.jpg','7_3.jpg');
 INSERT INTO Producte(nom, descripcio, preu, categoria, data_publicacio, visites, idClient, foto1, foto2, foto3) VALUES ('Xiaomi Redemi 9C','NFC-Smartphone con Pantalla HD+ de 6.53" DotDrop (3GB+64GB, Triple cámara trasera de 13MP con IA, MediaTek Helio G35, Batería de 5000 mAh, 10 W de carga rápida), Gris', 300, 'Moviles ', "2020-07-01", default, 3,'8_1.jpg','8_2.jpg','8_3.jpg');
-INSERT INTO Producte(nom, descripcio, preu, categoria, data_publicacio, visites, idClient, foto1, foto2, foto3) VALUES ('Assasins Creed Odyssey','Sinopsis: en mi vida lo he leído julio', 25, 'Videojuegos', "2020-03-23", default, 3,'9_1.jpg','9_2.jpg','9_3.jpg');
+INSERT INTO Producte(nom, descripcio, preu, categoria, data_publicacio, visites, idClient, foto1, foto2, foto3) VALUES ('Assasins Creed Odyssey','Completamente nuevo, sin desprecintar', 25, 'Videojuegos', "2020-03-23", default, 3,'9_1.jpg','9_2.jpg','9_3.jpg');
 
 COMMIT;
 

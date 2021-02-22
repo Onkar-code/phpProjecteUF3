@@ -2,9 +2,6 @@
 -TODO
 
 --Mostrar al usuario de los filtros aplicados (como un echo)
---Rehacer la bd (Fotos-->Tabla Producto(Tres columbnas con las URL) (Eliminar la tabla fotografia)
---direccion URL-?Imagenes/id_numeroimagen 
---Rehacer nuevos Inserts
 --Añadir link al login y register
 --Añadir form con metodo post, action "nombre del archivo php" y con el parametro=id del producto
 --en la zona publica (individual) hacer la query del producto para sacar toda la info y mostrarla
@@ -14,8 +11,12 @@
 -BUGS
 -CATEGORIA + PALABRA -> NO FUNCIONA
 
+'123456Ab'
 
-preguntar al profe:
-- si pueden ser 3 imagenes como minimo
-- si tiene que aplicarse varios filtros a la vez o si con aplicar uno ya es suficiente
+'123456Ac'
 
+'123456Ad'
+
+<input type='image'  value=" . $array[4] . " src='imagenes/". $array[4] . "_1.jpg' style='width:200px;height:300px;>
+
+<button class='button' type='submit' name='id' value=" . $array[4] . " style='border:1px solid black; background-color: transparent'><img src='imagenes/". $array[4] . "_1.jpg' style='width:200px;height:300px;></button>
