@@ -4,15 +4,27 @@
   <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
   <script src="app/app.js"></script>
 
-<div class='loginRegister'>
-    <form action="login.php">
-        <input type="submit" value="Login"></button>
-    </form>
-    
-    <form action="register.php">
-        <input type="submit" value="Register"></button>
-    </form>
-</div>
+<?php
+    session_start();
+    if (isset($_SESSION['userId'])) {
+        echo "<form method='POST' action='private.php'>
+            <input type='submit' name='logout' value='Cerrar sesión'></button>
+        </form>";
+        echo "<form action='private.php'>
+            <input type='submit' value='Zona privada'></button>
+        </form>";
+    } else {
+        echo "<div class='loginRegister'>
+            <form action='login.php'>
+                <input type='submit' value='Login'></button>
+            </form>
+            
+            <form action='register.php'>
+                <input type='submit' value='Register'></button>
+            </form>
+        </div>";
+    }
+?>
 
 <form method="post" action="public.php">
     <div class="principal">
