@@ -68,6 +68,7 @@
 	</style>
 </head>
 <body>
+	<a href="public.php">Volver a la zona publica</a>
 	<h2>Registrarse</h2>
 	<form method="post" action="">
 		<label>Nombre<span>*</span></label>

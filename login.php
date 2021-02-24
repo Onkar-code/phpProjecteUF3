@@ -34,6 +34,7 @@
 	<title>Login</title>
 </head>
 <body>
+	<a href="public.php">Volver a la zona publica</a>
 	<h2>Login</h2>
 	<form action="" method="POST">
 		<label>Nombre de usuario o email</label>

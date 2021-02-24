@@ -7,15 +7,14 @@
 	<form method="POST" action="private.php">
         <input type="submit" name="logout" value="Cerrar sesión"></button>
   	</form>
-  	<form action="public.php">
-        <input type="submit" value="Zona publica"></input>
-  	</form>
+  	<a href="public.php">Zona publica</a>
   	<br>
 
 <?php
 	session_start();
 	if (isset($_POST['logout'])) {
 		unset($_SESSION['userId']);
+        unset($_SESSION['username']);
 	}
 	if (!isset($_SESSION['userId'])) {
 		header('Location: public.php');
@@ -46,18 +45,25 @@
     function createTable($array) {
         //contenedor con imagen, propiedades e hipervínculo a la info de los Productos
 
-        echo "<div class='producte-individual'><form method='POST' action='producteInfo.php'> 
-        <img src='imagenes/". $array[4] . "_1.jpg' style='width:200px;height:300px;>    
-        </form>";
-        echo "<div><ul style='list-style-type:none;'> 
-            <li>" . $array[0] . "</li>
-            <li>" . $array[1] . "</li>
-            <li>" . $array[2] . "</li>
-            <li>" . $array[3] . "</li>
-            <li>  <button class='button' name='id' value=" . $array[4] . ">Detalles</button></li>
+        echo "<div class='producte-individual'>
+                    <img src='imagenes/$array[4]_1.jpg' style='width:200px;height:300px;'>
+                <div>
+                    <ul style='list-style-type:none;'> 
+                        <li>" . $array[0] . "</li>
+                        <li>" . $array[1] . "</li>
+                        <li>" . $array[2] . "</li>
+                        <li>" . $array[3] . "</li>
+                        <li> <form method='POST' action='producteInfo.php'>
+                                <input type='hidden' name='id' value=$array[4] />
+                                <input type='submit' value='Detalles' />
+                            </form>
+                        </li>
 
-            </ul></div></div>";
+                    </ul>
+                </div>
+            </div>";
     }
+
     //Estilos
     echo "<style>
     body{
@@ -103,11 +109,10 @@
     }
     </style>"
 ?>
-
 <!--Subir producto-->
 <br>
 <form method="POST" action="uploadEdit.php">
     <input type="submit" name="upload" value="Publicar nuevo producto"></button>
- </form>
+</form>
 </body>
 </html>

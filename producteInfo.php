@@ -3,22 +3,28 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js" integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ" crossorigin="anonymous"></script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous"></script>
   
-  <form action="public.php">
-        <input type="submit" value="Zona publica"></input>
-  </form>
+  <a href="public.php">Volver a la zona publica</a><br>
 <?php
     session_start();
+    require('database/dbConnection_local.php');
+
+    //Si hay una sesión iniciada, añadimos links para volver a la zona privada o para cerrar sesión
     if (isset($_SESSION['userId'])) {
-        echo "<form action='private.php'>
-            <input type='submit' value='Zona privada'></button>
-        </form>";
+        echo "<a href='private.php'>Volver a la zona privada</a>";
         echo "<form method='POST' action='private.php'>
             <input type='submit' name='logout' value='Cerrar sesión'></button>
         </form>";
     }
 
-    require('database/dbConnection_local.php');
+    //Si le dan a delete, borramos producto y volvemos a la zona privada
+    if (isset($_POST['delete'])) {
+        $sql = "DELETE FROM producte WHERE id = ?";
+        $statement=$db->prepare($sql);
+        $statement->execute(array($_POST['id']));
+        header('location: private.php');
+    }
 
+    //Recogemos y mostramos info del producto
     $sql = "SELECT * FROM producte WHERE id = ?";
     
     $statement=$db->prepare($sql);
@@ -26,9 +32,25 @@
 
     while ( $result=$statement->fetch(PDO::FETCH_ASSOC)) {
         $array = [$result["nom"],$result["preu"],$result["categoria"], $result["data_publicacio"],$result["visites"],$result["descripcio"],$result["foto1"],$result["foto2"],$result["foto3"], $result["idClient"]];
+
+        //Si el usuario logeado no es dueño del producto, o si no hay sesión iniciada, sumamos una visita al contador de ese producto
+        $sql2 = "UPDATE producte SET visites = ? + 1 WHERE id = ?";
+        $statement2=$db->prepare($sql2);
+
+        if (isset($_SESSION['userId'])) {
+            if (strcmp($_SESSION['userId'], $result['idClient']) != 0) {
+                $statement2->execute(array($result['visites'], $_POST['id']));
+            }
+        }
+        else {
+            $statement2->execute(array($result['visites'], $_POST['id']));
+        }
+
+        //Printamos tabla con los datos del producto
         producteIndividual($array);
     }
 
+    $statement->closeCursor();
     
     function producteIndividual($array) {
         //carrusel producte
@@ -80,12 +102,17 @@
         </div>";
 
         if (isset($_SESSION['userId'])) {
+            $id = $_POST['id'];
             if ($_SESSION['userId'] == $array[9]) {
-                echo "<form method='POST' action='uploadEdit.php'>
+                echo <<<EOT
+                <form method='POST' action='uploadEdit.php'>
+                    <input type="hidden" name="id" value="$id" />
                     <input type='submit' name='edit' value='Editar producto'></input>
-                </form>";
+                </form>
+                EOT;
                 echo <<<EOT
                 <form method='POST' action="producteInfo.php">
+                    <input type="hidden" name="id" value="$id" />
                     <input type='submit' name='delete' onclick="return confirm('¿Seguro que quieres eliminar este producto?')" value='Eliminar producto'></input>
                 </form>
                 EOT;

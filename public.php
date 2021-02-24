@@ -36,7 +36,7 @@
                 <option value="Moviles">Moviles</option>
                 <option value="Videojuegos">Videojuegos</option>
             </select><br><br>
-            ¿Qué buscas? <input id="search" type="text" name="search" placeholder="Buscar por texto"  value="<?php echo isset($_POST['search']) ? ($_POST['search']) : ''; ?>"/><br><br>
+            ¿Qué buscas? <input id="search" type="text" name="search" placeholder="Buscar por texto" value="<?php echo isset($_POST['search']) ? ($_POST['search']) : ''; ?>"/><br><br>
 
             Rango de precio en €:
             <input type="text" id="amount" name="RangoPrecio" readonly style="color:#000000; font-weight:bold;"><br><br>
@@ -67,21 +67,16 @@
 <div class=productes-table></div>
 
 <?php
-    require('database/dbConnection_local.php');
+    require_once('database/dbConnection_local.php');
        
     if(!isset($_POST['filtros']) || isset($_POST['sinFiltros']) ){
 
         $_POST['search'] = "";
         $sql = "SELECT * FROM producte";
         $result=$db->query($sql);
-
-        if(!$result) { 
-            print"Error en la consulta.\n";
-        } else{ 
-            foreach($result as $valor) {
-                $array = [$valor["nom"],$valor["preu"],$valor["categoria"], $valor["data_publicacio"],$valor["id"]];
-                createTable($array);
-            }
+        foreach($result as $valor) {
+            $array = [$valor["nom"],$valor["preu"],$valor["categoria"], $valor["data_publicacio"],$valor["id"]];
+            createTable($array);
         }
         
     }else{
@@ -146,7 +141,7 @@
                         createTable($array);
                     }
                 }
-                
+                $statement->closeCursor();
             }else{
                 $result=$db->query($sql);
                 if(!$result) { 
@@ -169,17 +164,23 @@
     function createTable($array) {
         //contenedor con imagen, propiedades e hipervínculo a la info de los Productos
 
-        echo "<div class='producte-individual'><form method='POST' action='producteInfo.php'> 
-        <img src='imagenes/". $array[4] . "_1.jpg' style='width:200px;height:300px;>    
-        </form>";
-        echo "<div><ul style='list-style-type:none;'> 
-            <li>" . $array[0] . "</li>
-            <li>" . $array[1] . "</li>
-            <li>" . $array[2] . "</li>
-            <li>" . $array[3] . "</li>
-            <li>  <button class='button' name='id' value=" . $array[4] . ">Detalles</button></li>
+        echo "<div class='producte-individual'>
+                    <img src='imagenes/$array[4]_1.jpg' style='width:200px;height:300px;'>
+                <div>
+                    <ul style='list-style-type:none;'> 
+                        <li>" . $array[0] . "</li>
+                        <li>" . $array[1] . "</li>
+                        <li>" . $array[2] . "</li>
+                        <li>" . $array[3] . "</li>
+                        <li> <form method='POST' action='producteInfo.php'>
+                                <input type='hidden' name='id' value=$array[4] />
+                                <input type='submit' value='Detalles' />
+                            </form>
+                        </li>
 
-            </ul></div></div>";
+                    </ul>
+                </div>
+            </div>";
     }
 
     //Estilos
