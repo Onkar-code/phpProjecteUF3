@@ -3,7 +3,7 @@
 	if (!isset($_SESSION['userId'])) {
 		header('Location: login.php');
 	}
-	require_once('database/dbConnection_local.php');
+	require_once('database/dbConnection_hosting.php');
 
 	//Si hemos entrado para editar producto
 	if (isset($_POST['edit'])) {

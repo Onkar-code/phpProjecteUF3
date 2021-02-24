@@ -65,7 +65,7 @@
 	<div class=productes-table></div>
 
     <?php
-        require_once('database/dbConnection_local.php');
+        require_once('database/dbConnection_hosting.php');
 
         //Recuperamos productos del usuario
         $sql = "SELECT * FROM producte WHERE idClient = $userId";
