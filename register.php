@@ -42,7 +42,6 @@
 
 			//Le pasamos los valores del $_POST que ya estan ordenados como en la tabla Client de la bd
 			unset($_POST['register']);
-			print_r($_POST);
 			$statement->execute(array_values($_POST));
 
 			//Iniciamos sesión

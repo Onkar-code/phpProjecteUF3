@@ -29,12 +29,37 @@
     	//Tenemos que usar GET para poder volver al mismo producto en producteInfo
     	header('location: private.php');
 	}
+
+	//Insertar producto en bd
+	if (isset($_POST['confirmUpload'])) {
+		$price = $_POST['price1'] . '.' . $_POST['price2'];
+		$sql = "INSERT INTO Producte (nom, descripcio, preu, categoria, data_publicacio, idClient) VALUES (?, ?, ?, ?, ?, ?)";
+		$statement = $db->prepare($sql);
+		$statement->execute(array($_POST['name'], $_POST['desc'], $price, $_POST['categoria'], date("Y-m-d"), $_SESSION['userId']));
+
+		//Gestionar fotos
+		$productId = $db->lastInsertId();
+		$uploadDir = 'imagenes/';
+
+		for ($i = 1; $i <= 3; $i++) {
+
+			//Ejemplo: imagenes/1_1.jpg
+			$foto = $uploadDir . $productId . '_' . $i . '.jpg';
+			move_uploaded_file($_FILES['foto' . $i]['tmp_name'], $foto);
+			$sql = "UPDATE Producte SET foto$i = ? WHERE id = $productId";
+			$statement = $db->prepare($sql);
+			$statement->execute(array(basename($foto)));
+			$statement->closeCursor();
+		}
+			
+		header('location: private.php');
+	}
 ?>
 
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Subir o editar producto</title>
+	<title><?php echo isset($_POST['upload']) ? "Subir nuevo " : "Editar " ?> producto</title>
 	<style type="text/css">
 		span {
 			color: red;
@@ -43,14 +68,14 @@
 </head>
 <body>
 	<a href='private.php'>Volver a la zona privada</a>
-	<h2>Subir o editar producto</h2>
+	<h2><?php echo isset($_POST['upload']) ? "Subir nuevo " : "Editar " ?> producto</h2>
 
 	<form method="post" action="" enctype="multipart/form-data">
 		<label>Nombre<span>*</span></label>
         <input type="text" name="name" required maxlength="30" value="<?php echo isset($name) ? $name : ''; ?>"/><br>
 
 		<label>Descripción</label>
-        <input type="text" name="desc" maxlength="200" value="<?php echo isset($desc) ? $desc : ''; ?>"/><br>
+        <input type="text" name="desc" maxlength="200" size="100" value="<?php echo isset($desc) ? $desc : ''; ?>"/><br>
 
 		<label>Precio<span>*</span></label>
         <input type="text" name="price1" required maxlength="4" pattern="^\d+$" value="<?php echo isset($price1) ? $price1 : ''; ?>"/>
@@ -69,17 +94,19 @@
             <option value="Libros">Libros</option>
             <option value="Moviles">Moviles</option>
             <option value="Videojuegos">Videojuegos</option>
-        </select><br>
+        </select><br><br>
 
-        <label>Fotografía 1<span>*</span></label>
-        <input type="file" name="foto1" required />
-        Selecciona la foto principal que se verá en la zona pública<br>
+        <label>Fotografía 1 (foto principal que se verá en la zona pública)<span>*</span></label><br>
+        <input type="file" name="foto1" required accept="image/*" />
+        <br><br>
 
-        <label>Fotografía 2<span>*</span></label>
-        <input type="file" name="foto2" required />
+        <label>Fotografía 2<span>*</span></label><br>
+        <input type="file" name="foto2" required accept="image/*" />
+        <br><br>
 
-        <label>Fotografía 3<span>*</span></label>
-        <input type="file" name="foto3" required />
+        <label>Fotografía 3<span>*</span></label><br>
+        <input type="file" name="foto3" required accept="image/*" />
+        <br><br><br>
 <?php
 	}
 ?>

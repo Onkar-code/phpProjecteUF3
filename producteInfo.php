@@ -18,9 +18,15 @@
 
     //Si le dan a delete, borramos producto y volvemos a la zona privada
     if (isset($_POST['delete'])) {
+        $id = $_POST['id'];
         $sql = "DELETE FROM producte WHERE id = ?";
         $statement=$db->prepare($sql);
-        $statement->execute(array($_POST['id']));
+        $statement->execute(array($id));
+
+        //Borramos fotos de la carpeta imagenes
+        for ($i = 1; $i <= 3; $i++) {
+            unlink("imagenes/" . $id . "_" . $i . ".jpg");
+        }
         header('location: private.php');
     }
 
