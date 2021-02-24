@@ -1,4 +1,4 @@
-CONTINGUD D'AQUEST ARXIU
+CONTINGUT D'AQUEST ARXIU
 ------------------------
     * Hosting
     * Credencials
