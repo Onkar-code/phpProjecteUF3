@@ -47,16 +47,17 @@ ZONA PÚBLICA
     > Ordenació: Per defecte els productes es mostren de forma ascendent.
     > Per aplicar els filtres clicar al botó de: "Realizar consulta"
     > Per desfer els filtres clicar al botó de: "Sin filtros"
-    > Cada producte té un botó detalls per veure el productre 
+    > Cada producte té un botó detalls per veure el productre individual
 
 
 ZONA PRIVADA    
 ------------
-Un cop accedim amb les credencials, podrem editar o publicar un nou producte desde "Zona privada".
+La zona privada només és válida pels usuaris registrats que haguin fet el Login. Desde la "Zona privada" podrem editar o publicar un nou producte
     
-    > Editar o eliminar productes: Si tenim un producte i el volem editar hem de clicar a "Detalles" i ens redireccionará al produce individual amb les opcions de editar i eliminar. Alhora d'editar, només es podrán editar els camps de: Nombre, descripcio i preu.
+    > Editar o eliminar productes: Si tenim un producte i el volem editar hem de clicar a "Detalles", aixó ens redireccionará a la informació del produce individual. 
+    Aquí s'haniliten les opcions de editar i eliminar. IMPORTANT: només es podrán editar els camps de; nombre, descripció i preu
     > Publicar productes:
-        - Requeriments: omplirt tots els camps i afegir 3 imatges obligatóriament.
+        - Requeriments: omplirt tots els camps i afegir 3 imatges obligatòriament
         
 
 MANTENIDORS
