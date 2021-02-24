@@ -55,9 +55,9 @@ ZONA PRIVADA
 La zona privada només és válida pels usuaris registrats que haguin fet el Login. Desde la "Zona privada" podrem editar o publicar un nou producte
     
     > Editar o eliminar productes: Si tenim un producte i el volem editar hem de clicar a "Detalles", aixó ens redireccionará a la informació del produce individual. 
-    Aquí s'haniliten les opcions de editar i eliminar. IMPORTANT: només es podrán editar els camps de; nombre, descripció i preu
+    Aquí s'habiliten les opcions de editar i eliminar. IMPORTANT: només es podrán editar els camps de; nombre, descripció i preu
     > Publicar productes:
-        - Requeriments: omplirt tots els camps i afegir 3 imatges obligatòriament
+        - Requeriments: omplir tots els camps i afegir 3 imatges obligatòriament
         
 
 MANTENIDORS
