@@ -1,5 +1,5 @@
 <?php
-    require('dbConnection_hosting.php');
+    require('dbConnection_local.php');
     
     //TODO implementar con $_POST[""];
     $categoria = 'Libros';

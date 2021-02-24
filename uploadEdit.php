@@ -3,7 +3,7 @@
 	if (!isset($_SESSION['userId'])) {
 		header('Location: login.php');
 	}
-	require_once('database/dbConnection_hosting.php');
+	require_once('database/dbConnection_local.php');
 
 	//Si hemos entrado para editar producto
 	if (isset($_POST['edit'])) {
@@ -113,7 +113,8 @@
 
         <!--Depende de si está subiendo producto nuevo o editando existente, el nombre de la variable POST cambia-->
         <input type="hidden" name="id" value="<?php echo $id ?>" />
-	    <input type="submit" name="<?php echo isset($_POST['upload']) ? 'confirmUpload' : 'confirmEdit' ?>" value="Guardar" />
+	    <br>
+		<input type="submit" name="<?php echo isset($_POST['upload']) ? 'confirmUpload' : 'confirmEdit' ?>" value="Guardar" />
 	</form>
 </body>
 </html>

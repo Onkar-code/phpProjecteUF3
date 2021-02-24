@@ -1,11 +1,8 @@
 <?php	
 	session_start();
-	require_once('database/dbConnection_hosting.php');
+	require_once('database/dbConnection_local.php');
 
-	//Si envía formulario
 	if (isset($_POST['register'])) {
-		echo $_POST['register'];
-
 		//Comprobamos si ya existe el nombre de usuario en la bd
 		$sql = "SELECT * FROM Client where usuari=?";
 		$statement=$db->prepare($sql);
@@ -20,7 +17,7 @@
 
 
 		//Comprobamos si ya existe el email en la bd
-		$sql = "SELECT * FROM Client where LOWER(email)=(?)";
+		$sql = "SELECT * FROM Client where LOWER(email)=LOWER(?)";
 		$statement=$db->prepare($sql);
 		$statement->execute(array($_POST['email']));
 
@@ -34,15 +31,12 @@
 		//Si esta todo OK
 		if (!isset($msgEmailExists) && !isset($msgUserExists)) {
 			//Encriptamos password
-			$_POST['pass'] = password_hash($_POST['pass'], PASSWORD_BCRYPT);
+			$pass = password_hash($_POST['pass'], PASSWORD_BCRYPT);
 
-			//Nos preparamos para insertar los datos del usuario en la bd
-			$sql = "INSERT INTO Client (nom, cognom1, cognom2, usuari, password, email) VALUES (?, ?, ?, ?, ?, ?)";
+			//Insertamos datos del usuario en la bd
+			$sql = "INSERT INTO Client (nom, cognom1, cognom2, usuari, password, email) VALUES (?, ?, ?, ?, ?, LOWER(?))";
 			$statement=$db->prepare($sql);
-
-			//Le pasamos los valores del $_POST que ya estan ordenados como en la tabla Client de la bd
-			unset($_POST['register']);
-			$statement->execute(array_values($_POST));
+			$statement->execute(array($_POST['name'], $_POST['surname1'], $_POST['surname2'], $_POST['user'], $pass, $_POST['email']));
 
 			//Iniciamos sesión
 			$_SESSION['userId'] = $db->lastInsertId();
@@ -71,18 +65,18 @@
 	<h2>Registrarse</h2>
 	<form method="post" action="">
 		<label>Nombre<span>*</span></label>
-        <input type="text" name="name" required maxlength="30" value="<?php if (isset($_POST['name'])) ?>"/><br>
+        <input type="text" name="name" required maxlength="30" value="<?php echo isset($_POST['name']) ? $_POST['name'] : '' ?>"/><br>
 
 		<label>Primer apellido<span>*</span></label>
-        <input type="text" name="surname1" required maxlength="30" /><br>
+        <input type="text" name="surname1" required maxlength="30" value="<?php echo isset($_POST['surname1']) ? $_POST['surname1'] : '' ?>"/><br>
 
 		<label>Segundo apellido<span>*</span></label>
-        <input type="text" name="surname2" required maxlength="30" /><br>
+        <input type="text" name="surname2" required maxlength="30" value="<?php echo isset($_POST['surname2']) ? $_POST['surname2'] : '' ?>"/><br>
 
         <label>Nombre de usuario<span>*</span></label>
-        <input type="text" name="user" required maxlength="30" pattern="[\dA-Za-z]+" /> Sólo letras o números<br>
+        <input type="text" name="user" required maxlength="30" pattern="[\dA-Za-z\-]+" /> Sólo letras, números o guiones<br>
         <!-- Mensaje a mostrar en caso de error -->
-		<?php if (isset($msgUserExists)) echo '<span>'.$msgUserExists.'</span>'; ?>
+		<?php if (isset($msgUserExists)) echo "<span>$msgUserExists</span>"; ?>
 
         <label>Contraseña<span>*</span></label>
         <input type="password" name="pass" placeholder="Ejemplo: 1234abCD" pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$" required /> 
@@ -91,10 +85,12 @@
         <label>Email<span>*</span></label>
         <input type="email" name="email" required maxlength="30" /> ejemplo@ejemplo.com<br>
         <!-- Mensaje a mostrar en caso de error -->
-		<?php if (isset($msgEmailExists)) echo '<span>'.$msgEmailExists.'</span><br>'; ?>
+		<?php if (isset($msgEmailExists)) echo "<span>$msgEmailExists</span><br>"; ?><br>
 
 	    <input type="submit" name="register" value="Registrarme" />
 	</form><br>
+
+	<!--Link al login-->
 	¿Ya tienes cuenta? <a href='login.php'>Haz login</a><br>
 </body>
 </html>
