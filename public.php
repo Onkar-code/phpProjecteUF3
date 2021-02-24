@@ -67,7 +67,7 @@
 <div class=productes-table></div>
 
 <?php
-    require_once('database/dbConnection_local.php');
+    require_once('database/dbConnection_hosting.php');
        
     if(!isset($_POST['filtros']) || isset($_POST['sinFiltros']) ){
 

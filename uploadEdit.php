@@ -3,7 +3,7 @@
 	if (!isset($_SESSION['userId'])) {
 		header('Location: login.php');
 	}
-	require_once('database/dbConnection_local.php');
+	require_once('database/dbConnection_hosting.php');
 
 	//Si hemos entrado para editar producto
 	if (isset($_POST['edit'])) {
@@ -33,7 +33,7 @@
 	//Insertar producto en bd
 	if (isset($_POST['confirmUpload'])) {
 		$price = $_POST['price1'] . '.' . $_POST['price2'];
-		$sql = "INSERT INTO Producte (nom, descripcio, preu, categoria, data_publicacio, idClient) VALUES (?, ?, ?, ?, ?, ?)";
+		$sql = "INSERT INTO producte (nom, descripcio, preu, categoria, data_publicacio, idClient) VALUES (?, ?, ?, ?, ?, ?)";
 		$statement = $db->prepare($sql);
 		$statement->execute(array($_POST['name'], $_POST['desc'], $price, $_POST['categoria'], date("Y-m-d"), $_SESSION['userId']));
 
@@ -46,7 +46,7 @@
 			//Ejemplo: imagenes/1_1.jpg
 			$foto = $uploadDir . $productId . '_' . $i . '.jpg';
 			move_uploaded_file($_FILES['foto' . $i]['tmp_name'], $foto);
-			$sql = "UPDATE Producte SET foto$i = ? WHERE id = $productId";
+			$sql = "UPDATE producte SET foto$i = ? WHERE id = $productId";
 			$statement = $db->prepare($sql);
 			$statement->execute(array(basename($foto)));
 			$statement->closeCursor();

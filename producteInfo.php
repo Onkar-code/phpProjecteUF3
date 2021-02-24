@@ -6,7 +6,7 @@
   <a href="public.php">Volver a la zona publica</a><br>
 <?php
     session_start();
-    require('database/dbConnection_local.php');
+    require('database/dbConnection_hosting.php');
 
     //Si hay una sesión iniciada, añadimos links para volver a la zona privada o para cerrar sesión
     if (isset($_SESSION['userId'])) {

@@ -1,6 +1,6 @@
 <?php 
 	session_start();
-	require_once('database/dbConnection_local.php');
+	require_once('database/dbConnection_hosting.php');
 
 	//Si envía formulario
 	if (isset($_POST['send'])) {
