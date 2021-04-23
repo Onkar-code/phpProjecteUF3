@@ -1,0 +1,22 @@
+.content {
+    margin: auto;
+    width: 50%;
+  }
+
+.principal{
+    display: flex;
+}
+
+.precio{
+    display:flex;
+    flex-direction: row;
+}
+
+
+#resultados {
+    margin: auto;
+    width: 70%;
+  }
+/* #card-container{
+    width: 100% !important;
+} */
