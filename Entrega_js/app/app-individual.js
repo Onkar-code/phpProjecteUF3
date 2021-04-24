@@ -1,6 +1,7 @@
 $( function() {
     fetchTasks();
-        
+     
+    //obatener producto por id mediante AJAX
     function fetchTasks(){
         var urlParams = new URLSearchParams(window.location.search);
         let id = urlParams.get('id');
@@ -11,6 +12,7 @@ $( function() {
         })
     }
     
+    //renderizar en el DOM la tabla con la info del producto
     function producteInfo(producte){
         let template= '';
         if ($('#load-text').length > 0) {

@@ -29,6 +29,17 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    </script>
+    <!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous"> -->
+
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="https://bootswatch.com/4/lux/bootstrap.min.css">
 </head>
@@ -39,21 +50,18 @@
                 <div class="filtros">
                     <h3> Filtros </h3>
                     Categoria: <select id="categoria" name="categoria">
-                        <option value="Todas">Todas las categorias </option>
-                        <option value="Libros">Libros</option>
-                        <option value="Moviles">Moviles</option>
-                        <option value="Videojuegos">Videojuegos</option>
+
                     </select><br><br>
-                
+
                     ¿Qué buscas? <input id="search" type="text" name="search" placeholder="Buscar por texto"/><br><br>
                 </div>
                 <div id="rango-precio" class="pl-4 mt-3">
-                    
+
                     Rango de precio en €:
                     <input class="precio" id="precioMax" type="text" name="search" placeholder="Precio máximo"/><br>
                     <input class="precio" id="precioMin" type="text" name="search" placeholder="Precio mínimo"/>
                 </div>
-            
+
                 <div class="ordenar ml-4">
                     <h3> Ordenación </h3>
 
@@ -81,7 +89,7 @@
                     Realizar consulta: <input type="submit" id="fetch-data" name="filtros" value="Enviar" /><br><br>
                 </form>
                 <form id="borrar-filtros">
-                    Borrar filtros: <input type="submit" name="sinfiltros" value="Enviar" />      
+                    Borrar filtros: <input type="submit" name="sinfiltros" value="Enviar" />
                 </form>
             </div>
         </form>
@@ -93,8 +101,8 @@
             </div>
         </div>
     </div>
-    
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+
+
     <script src="app/app.js"></script>
 </body>
 </html>

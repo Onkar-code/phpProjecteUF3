@@ -1,16 +1,38 @@
+$(document).ready(function(){
+    var regex = /^\d*[.]?\d*$/;
+    //comprobación form Rango precios
+    $("#precioMax").on("input", function(){
+        var inputVal = $(this).val();
+        if(regex.test(inputVal)){
+            $(this).removeClass("error").addClass("success");
+        } else{
+            $(this).removeClass("success").addClass("error");
+        }
+    });
+
+    $("#precioMin").on("input", function(){
+        var inputVal = $(this).val();
+        if(regex.test(inputVal)){
+            $(this).removeClass("error").addClass("success");
+        } else{
+            $(this).removeClass("success").addClass("error");
+        }
+    });
+});
+
 $( function() {
+    //Obtener categoria mediante ajax
+    fetchCategories();
 
     $(document).ready(function(){
-
         $('[type="checkbox"]').change(function(){
-
           if(this.checked){
              $('[type="checkbox"]').not(this).prop('checked', false);
           }
         });
-
     });
 
+    //Apliar filtros y obtener datos con AJAX    
     $('#consulta').submit(function(e){
         const postData = {
             categoria: $('#categoria').val(),
@@ -20,9 +42,7 @@ $( function() {
             precioMax: $('#precioMax').val(),
             precioMin: $('#precioMin').val(),
         };
-        $.post('query-products-filtered.php', postData,
-
-        function(response){
+        $.post('query-products-filtered.php', postData, function(response){
             let products = JSON.parse(response);
 
             if ( "resultado" in products){
@@ -48,11 +68,13 @@ $( function() {
         return i;
     }
 
+    //consulta sin resultados
     function noResponse(){
         let template = '<h1 id="noResult" class="pt-4" style="text-align:center;"> No se han encontrado resultados<h1>';
         $('#resultados').html(template);
     }
 
+    //Listado en cards
     function cards(products){
 
         if ($('#noResult').length > 0) {
@@ -83,28 +105,44 @@ $( function() {
         $('#cardList').html(template);
     }
 
+    //Redirección a producte info
     $(document).on('click','.info-producte', function(e){
         let element = $(this)[0].parentElement.parentElement.parentElement;
         let id = $(element).attr('productId');
         window.location.href = 'producte-info.php?id=' + id;
-        
         e.preventDefault();
     })
 
+    //TODO desarrollar mapa
     function mapa(products){
-        
         if ($('#noResult').length > 0) {
             $('#noResult').remove();
         }
-        //TODO desarrollar mapa
     }
 
+    //obtener todos los productos mediante AJAX
     function fetchProducts(){
         $.ajax({
             url: 'query-products.php',
             type: 'GET',
             success: function(response){
                 let products = JSON.parse(response);
+            }
+        });
+    }
+
+    //obtener las categorias mediante AJAX
+    function fetchCategories(){
+        $.ajax({
+            url: 'query-producte-categoria.php',
+            type: 'GET',
+            success: function(response){
+                let categorias = JSON.parse(response);
+                let template = '<option value="Todas">Todas las categorias </option>';
+                for ( i = 1; i < categorias.length; i++) {
+                    template += `<option value="${categorias[i].categoriaNom}">${categorias[i].categoriaNom}</option>`
+                }
+                $('#categoria').html(template);
             }
         });
     }

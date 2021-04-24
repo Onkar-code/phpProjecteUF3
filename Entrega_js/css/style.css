@@ -12,11 +12,14 @@
     flex-direction: row;
 }
 
-
 #resultados {
     margin: auto;
     width: 70%;
   }
-/* #card-container{
-    width: 100% !important;
-} */
+
+.success{
+  outline: 2px solid green;
+}
+.error{
+  outline: 2px solid red;
+}
