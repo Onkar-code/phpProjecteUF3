@@ -18,6 +18,17 @@ $(document).ready(function(){
             $(this).removeClass("success").addClass("error");
         }
     });
+
+    //comprobación form Search Box
+    const regex_serach = /^(?:[A-Za-z]+)(?:[A-Za-z0-9 _]*)$/;
+    $("#search").on("input", function(){
+        var inputVal = $(this).val();
+        if(regex_serach.test(inputVal) && inputVal.length < 201){
+            $(this).removeClass("error").addClass("success");
+        } else{
+            $(this).removeClass("success").addClass("error");
+        }
+    });
 });
 
 $( function() {
