@@ -1,0 +1,25 @@
+.content {
+    margin: auto;
+    width: 50%;
+  }
+
+.principal{
+    display: flex;
+}
+
+.precio{
+    display:flex;
+    flex-direction: row;
+}
+
+#resultados {
+    margin: auto;
+    width: 70%;
+  }
+
+.success{
+  outline: 2px solid green;
+}
+.error{
+  outline: 2px solid red;
+}
