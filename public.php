@@ -118,7 +118,7 @@
     <div class=productes-table></div>
 
     <?php
-        require_once('database/dbConnection_hosting.php');
+        require_once('database/dbConnection_local.php');
         
         //Query basica
         $sql = "SELECT * FROM producte";

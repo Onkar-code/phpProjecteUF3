@@ -1,6 +1,6 @@
 <?php	
 	session_start();
-	require_once('database/dbConnection_hosting.php');
+	require_once('database/dbConnection_local.php');
 
 	if (isset($_POST['register'])) {
 		//Comprobamos si ya existe el nombre de usuario en la bd
