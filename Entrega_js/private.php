@@ -35,7 +35,7 @@
 
 <body>
     <!--Link a la zona publica-->
-    <a href="public.php">Volver a la zona publica</a><br><br>
+    <a href="index.php">Volver a la zona publica</a><br><br>
 
     <!--Botón para cerrar sesión-->
 	<form method="POST" action="private.php">
@@ -54,7 +54,7 @@
 
         //Si no hay sesión iniciada, redirigimos a la zona publica
         if (!isset($_SESSION['userId'])) {
-            header('Location: public.php');
+            header('Location: index.php');
         }
         else {
             $userId = $_SESSION['userId'];

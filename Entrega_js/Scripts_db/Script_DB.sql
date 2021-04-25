@@ -9,7 +9,11 @@ CREATE TABLE Client (
   cognom2 varchar(30) not null, 
   usuari varchar(30) not null unique, 
   password varchar(60) not null, 
-  email varchar(30) not null unique
+  email varchar(30) not null unique,
+  telefon int not null check (telefon >= 100000000 and telefon < 1000000000),
+  dni varchar(9) not null unique,
+  latitud float not null check (latitud > -90 and latitud < 90),
+  longitud float not null check (longitud > -180 and longitud < 180)
 ); 
 
 CREATE TABLE Producte (
