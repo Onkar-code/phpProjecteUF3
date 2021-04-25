@@ -11,6 +11,19 @@
             </form>";
         }
 
+        //Si le dan a delete, borramos producto y volvemos a la zona privada
+        if (isset($_POST['delete'])) {
+            $id = $_POST['id'];
+            $sql = "DELETE FROM producte WHERE id = ?";
+            $statement=$db->prepare($sql);
+            $statement->execute(array($id));
+
+            //Borramos fotos de la carpeta imagenes
+            for ($i = 1; $i <= 3; $i++) {
+                unlink("imagenes/" . $id . "_" . $i . ".jpg");
+            }
+            header('location: private.php');
+        }
     ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -38,10 +51,13 @@
 <?php
     //Si hay sesión iniciada y el usuario es dueño de ese producto, mostramos botones de editar y eliminar
     if (isset($_SESSION['userId'])) {
-        $id = $_POST['id'];
+        $sql = "SELECT idClient FROM producte WHERE id =" . $_POST['id'];
+        $result = $db->query($sql);
+        $row=$result->fetch(PDO::FETCH_ASSOC);
+        $id = $_GET['id'];
         if ($_SESSION['userId'] == $row['idClient']) {
             echo <<<EOT
-            <form method='POST' action='uploadEdit.php'>
+            <form method='POST' action='edit.php'>
                 <input type="hidden" name="id" value="$id" />
                 <input type='submit' name='edit' value='Editar producto'></input>
             </form><br>

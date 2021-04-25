@@ -237,8 +237,7 @@ function geocodeAddress(){
     if (!err) {
       lat = results.results[0].latlng.lat;
       lng = results.results[0].latlng.lng;
-      console.log("lat ="+lat+", lng = "+lng);
-
+      
       // Add marker, set zoom and center map
       var marker = L.marker([lat, lng]).addTo(map);
       map.setView([lat, lng], 15);

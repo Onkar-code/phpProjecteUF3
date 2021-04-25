@@ -31,6 +31,8 @@
             list-style-type: none;
         }
     </style>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <script src="app/private.js"></script>
 </head>
 
 <body>
@@ -92,10 +94,7 @@
                             <li>" . $row['preu'] . "</li>
                             <li>" . $row['categoria'] . "</li>
                             <li>" . $row['data_publicacio'] . "</li>
-                            <li> <form method='POST' action='producteInfo.php'>
-                                    <input type='hidden' name='id' value=" . $row['id'] . " />
-                                    <input type='submit' value='Detalles' />
-                                </form>
+                            <li> <a href='#' id=" . $row['id'] . " class='info-producte btn btn-primary'>Mes informació</a>
                             </li>
                         </ul>
                     </div>
@@ -105,7 +104,7 @@
 
     <!--Subir nuevo producto-->
     <br>
-    <form method="POST" action="uploadEdit.php">
+    <form method="POST" action="upload.php">
         <input type="submit" name="upload" value="Publicar nuevo producto"></button>
     </form>
 </body>
