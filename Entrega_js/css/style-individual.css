@@ -1,7 +1,18 @@
 #table-info{
     display: flex;
+    margin: auto;
+    width: 50%;
     flex-direction: column;
 }
+
+.imagenes{
+    display: flex;
+    max-width: 300px;
+    max-height: 300px;
+    margin: auto;
+    width: 50%;
+}
+
 body{
     margin: 20px;
 }
@@ -27,4 +38,27 @@ body{
     height: 300px;
     margin: auto;
     padding-bottom: 10px;
+}
+
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+  height: 100px;
+  width: 100px;
+  background-size: 100%, 100%;
+  border-radius: 50%;
+  border: 1px solid black;
+  background-image: none;
+}
+
+.carousel-control-next-icon:after
+{
+  content: '>';
+  font-size: 55px;
+  color: red;
+}
+
+.carousel-control-prev-icon:after {
+  content: '<';
+  font-size: 55px;
+  color: red;
 }

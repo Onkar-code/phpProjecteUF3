@@ -10,14 +10,19 @@
                 </form><br>";
 
         //Si no hay sesión iniciada, mostramos opciones de hacer login o registrarse
+        //<input type='submit' value='Login'></button>
         } else {
             echo "<div class='loginRegister'>
+                    <div class='login'>
                     <form action='login.php'>
-                        <input type='submit' value='Login'></button>
+                        <button type='submit' class='btn btn-primary'>Login</button>
                     </form>
+                    </div>
+                    <div class='register'>
                     <form action='register.php'>
-                        <input type='submit' value='Register'></button>
+                        <button type='submit' class='btn btn-primary' >Register</button>
                     </form>
+                    </div>
                 </div>";
         }
     ?>
@@ -41,7 +46,7 @@
 	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
 
     <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="https://bootswatch.com/4/lux/bootstrap.min.css">
+    <!-- <link rel="stylesheet" href="https://bootswatch.com/4/lux/bootstrap.min.css"> -->
 </head>
 <body>
     <div class="content">
@@ -86,10 +91,10 @@
             </div>
             <div class="send-consulta pl-4 pb-4">
                 <form>
-                    Realizar consulta: <input type="submit" id="fetch-data" name="filtros" value="Enviar" /><br><br>
+                    Realizar consulta: <input type="submit" class='btn btn-primary' id="fetch-data" name="filtros" value="Enviar" /><br><br>
                 </form>
                 <form id="borrar-filtros">
-                    Borrar filtros: <input type="submit" name="sinfiltros" value="Enviar" />
+                    Borrar filtros: <input type="submit" class='btn btn-primary' name="sinfiltros" value="Enviar" />
                 </form>
             </div>
         </form>

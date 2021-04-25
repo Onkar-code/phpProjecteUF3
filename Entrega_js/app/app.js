@@ -23,7 +23,7 @@ $(document).ready(function(){
     const regex_serach = /^(?:[A-Za-z]+)(?:[A-Za-z0-9 _]*)$/;
     $("#search").on("input", function(){
         var inputVal = $(this).val();
-        if(regex_serach.test(inputVal) && inputVal.length < 201){
+        if(regex_serach.test(inputVal) && inputVal.length < 201 || inputVal.length == 0){
             $(this).removeClass("error").addClass("success");
         } else{
             $(this).removeClass("success").addClass("error");
@@ -90,7 +90,7 @@ $( function() {
 
         if ($('#noResult').length > 0) {
             $('#noResult').remove();
-            let card = `<div id="card-container" class="container-fluid py bg-primary">
+            let card = `<div id="card-container" class="container-fluid py-2 bg-primary">
                 <div id="cardList" class="row">
                 </div>
             </div>`;
