@@ -47,6 +47,28 @@
 
     <link rel="stylesheet" href="css/style.css">
     <!-- <link rel="stylesheet" href="https://bootswatch.com/4/lux/bootstrap.min.css"> -->
+
+    <!-- Load Leaflet from CDN -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
+        integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
+        crossorigin="" />
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
+        integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
+        crossorigin=""></script>
+
+    <!-- Load Esri Leaflet from CDN -->
+    <script src="https://unpkg.com/esri-leaflet@2.5.3/dist/esri-leaflet.js"
+        integrity="sha512-K0Vddb4QdnVOAuPJBHkgrua+/A9Moyv8AQEWi0xndQ+fqbRfAFd47z4A9u1AW/spLO0gEaiE1z98PK1gl5mC5Q=="
+        crossorigin=""></script>
+
+    <!-- Geocoding Control -->
+    <link rel="stylesheet" href="https://unpkg.com/esri-leaflet-geocoder@2.3.3/dist/esri-leaflet-geocoder.css"
+        integrity="sha512-IM3Hs+feyi40yZhDH6kV8vQMg4Fh20s9OzInIIAc4nx7aMYMfo+IenRUekoYsHZqGkREUgx0VvlEsgm7nCDW9g=="
+        crossorigin="">
+    <script src="https://unpkg.com/esri-leaflet-geocoder@2.3.3/dist/esri-leaflet-geocoder.js"
+        integrity="sha512-HrFUyCEtIpxZloTgEKKMq4RFYhxjJkCiF5sDxuAokklOeZ68U2NPfh4MFtyIVWlsKtVbK5GD2/JzFyAfvT5ejA=="
+        crossorigin=""></script>
+
 </head>
 <body>
     <div class="content">
@@ -83,7 +105,7 @@
             </div>
             <div class="pl-4">
             <label  class="checkbox-inline">
-                <input type="checkbox" id="checkbox" class="checkbox" name="skills" id="radio" value="Listado">Listado
+                <input type="checkbox" id="checkbox" class="checkbox" name="skills" id="radio" value="Listado" checked="true">Listado
             </label>
             <label class="checkbox-inline">
                     <input type="checkbox" class="checkbox" name="skills" value="Mapa">Mapa
@@ -101,12 +123,17 @@
     </div>
 
     <div id="resultados">
-        <div id="card-container" class="container-fluid py-5 bg-primary">
+        <div id="card-container" class="container-fluid py-2 bg-primary">
             <div id="cardList" class="row">
             </div>
         </div>
+        <div id="resMapa">
+            <div id="map">
+            </div>
+        </div>
+        <h1 id="noResult" class="pt-4" style="text-align:center;"> No se han encontrado resultados<h1>
+        
     </div>
-
 
     <script src="app/app.js"></script>
 </body>
