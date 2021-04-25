@@ -18,7 +18,7 @@
     $numFiltros = 0;
 
     //Query basica
-    $query = "SELECT * FROM producte";
+    $query = "SELECT p.*, c.latitud, c.longitud, p.idClient FROM producte p JOIN client c ON p.idClient = c.id";
    
     //Filtro categoria
     if ($categoria != "Todas"){
@@ -79,7 +79,10 @@
                     'categoria' => $row['categoria'],
                     'data_publicacio' => $row['data_publicacio'],
                     'foto' => $row['foto1'],
-                    'id' => $row['id']
+                    'id' => $row['id'],
+                    'latitud' => $row['latitud'],
+                    'longitud' => $row['longitud'],
+                    'idClient' => $row['idClient']
                 );
             }
         }
@@ -98,7 +101,10 @@
                     'categoria' => $row['categoria'],
                     'data_publicacio' => $row['data_publicacio'],
                     'foto' => $row['foto1'],
-                    'id' => $row['id']
+                    'id' => $row['id'],
+                    'latitud' => $row['latitud'],
+                    'longitud' => $row['longitud'],
+                    'idClient' => $row['idClient']
                 );
             }
         }

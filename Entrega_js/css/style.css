@@ -34,3 +34,13 @@
 .register{
   padding-left: 15px;
 }
+
+#map{
+  margin: auto;
+  width: 800px;
+  height: 600px;
+}
+
+#noResult{
+  display:none;
+}
