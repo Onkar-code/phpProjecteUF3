@@ -9,9 +9,11 @@
     $precioMax = $_POST['precioMax'];
     $precioMin = $_POST['precioMin'];
     
-    if (empty($precioMax) || empty($precioMin)){
-        $precioMax = 999999;
-        $precioMin = 0;
+    if(empty($precioMax)) {
+        $precioMax = "9999.99";
+    }
+    if(empty($precioMin)) {
+        $precioMin = "0";
     }
 
     $consultaPreparada=false;
@@ -44,20 +46,16 @@
     }
     
     //Rango de precio
-    if (!empty($precioMax) && !empty($precioMin)) {
-    
-        //Si es el primer filtro aplicado
-        if ($numFiltros == 0) {
-            $query .= " WHERE ";
-        }
-
-        //Si hay más filtros anteriormente
-        if ($numFiltros > 0) {
-            $query .= " AND ";
-        }
-        $query .= " p.preu BETWEEN $precioMin AND $precioMax ";
-        $numFiltros++;
+    //Si es el primer filtro aplicado
+    if ($numFiltros == 0) {
+        $query .= " WHERE ";
     }
+
+    //Si hay más filtros anteriormente
+    if ($numFiltros > 0) {
+        $query .= " AND ";
+    }
+    $query .= " p.preu BETWEEN $precioMin AND $precioMax ";
 
     //Ordenar
     $query .= " ORDER BY p.preu $ordenarPrecio, p.data_publicacio $ordenarFecha ";

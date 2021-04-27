@@ -74,6 +74,7 @@
                     Rango de precio en €:
                     <input class="precio" id="precioMax" type="text" name="search" placeholder="Precio máximo"/><br>
                     <input class="precio" id="precioMin" type="text" name="search" placeholder="Precio mínimo"/>
+                    <div class="mt-3 alert" id="feedback"></div>
                 </div>
 
                 <div class="ordenar ml-4">

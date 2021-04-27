@@ -1,6 +1,8 @@
 let map, lat, lng;
 
 $(document).ready(function(){
+    document.getElementById("precioMax").addEventListener("blur",validatePrice);
+    document.getElementById("precioMin").addEventListener("blur",validatePrice);
     var regex = /^\d*[.]?\d*$/;
     //comprobación form Rango precios
     $("#precioMax").on("input", function(){
@@ -31,6 +33,35 @@ $(document).ready(function(){
             $(this).removeClass("success").addClass("error");
         }
     });
+    function validatePrice(){
+        let precioMax = $('#precioMax').val();
+        let precioMin = $('#precioMin').val();
+        console.log(precioMax + " " +  precioMax);
+        if ( precioMax < precioMin ){
+            setErrorPrice("El precio máximo ha de ser mayor que el precio mínimo.");
+            
+        } else {
+            setSuccessPrice();
+            
+        }
+    }
+
+    function setErrorPrice(message) {
+        feedback = document.getElementById("feedback");
+        feedback.classList.add("alert-danger");
+        feedback.innerHTML = message;
+        $('#precioMax').removeClass("success").addClass("error");
+        $('#precioMin').removeClass("success").addClass("error");
+    }
+      
+    function setSuccessPrice() {
+        feedback = document.getElementById("feedback");
+        if (feedback.classList.contains("alert-danger")){
+            feedback.classList.remove("alert-danger");
+        }
+        $('#precioMax').removeClass("error").addClass("success");
+        $('#precioMin').removeClass("error").addClass("success");
+    }
 });
 
 $( function() {
@@ -56,9 +87,9 @@ $( function() {
             precioMax: $('#precioMax').val(),
             precioMin: $('#precioMin').val(),
         };
+        console.log(postData.precioMin);
         $.post('query-products-filtered.php', postData, function(response){
             let products = JSON.parse(response);
-            console.log(response);
             if ( "resultado" in products){
                 //hide
                 hideOrShow(document.getElementById("card-container"), "hide");
@@ -82,16 +113,6 @@ $( function() {
         })
         e.preventDefault();
     });
-
-    function objLength(obj){
-        var i=0;
-        for (var x in obj){
-          if(obj.hasOwnProperty(x)){
-            i++;
-          }
-        } 
-        return i;
-    }
 
     function hideOrShow(x, accion){
         if ( accion == "hide"){
@@ -161,13 +182,18 @@ $( function() {
     }
 
     //obtener todos los productos mediante AJAX
-    function fetchProducts(){
+    function fetchProductes(){
         $.ajax({
             url: 'query-products.php',
             type: 'GET',
+            async: false,
             success: function(response){
                 let products = JSON.parse(response);
-            }
+                hideOrShow(document.getElementById("noResult"), "hide");
+                hideOrShow(document.getElementById("resMapa"), "hide");
+                hideOrShow(document.getElementById("card-container"), "show");
+                cards(products);
+            }   
         });
     }
 
@@ -184,21 +210,6 @@ $( function() {
                     template += `<option value="${categorias[i].categoriaNom}">${categorias[i].categoriaNom}</option>`
                 }
                 $('#categoria').html(template);
-            }   
-        });
-    }
-
-    function fetchProductes(){
-        $.ajax({
-            url: 'query-products.php',
-            type: 'GET',
-            async: false,
-            success: function(response){
-                let products = JSON.parse(response);
-                hideOrShow(document.getElementById("noResult"), "hide");
-                hideOrShow(document.getElementById("resMapa"), "hide");
-                hideOrShow(document.getElementById("card-container"), "show");
-                cards(products);
             }   
         });
     }
