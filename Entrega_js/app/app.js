@@ -36,6 +36,7 @@ $(document).ready(function(){
 $( function() {
     //Obtener categoria mediante ajax
     fetchCategories();
+    fetchProductes();
 
     $(document).ready(function(){
         $('[type="checkbox"]').change(function(){
@@ -57,7 +58,7 @@ $( function() {
         };
         $.post('query-products-filtered.php', postData, function(response){
             let products = JSON.parse(response);
-            console.log(products);
+            console.log(response);
             if ( "resultado" in products){
                 //hide
                 hideOrShow(document.getElementById("card-container"), "hide");
@@ -175,6 +176,7 @@ $( function() {
         $.ajax({
             url: 'query-producte-categoria.php',
             type: 'GET',
+            async: false,
             success: function(response){
                 let categorias = JSON.parse(response);
                 let template = '<option value="Todas">Todas las categorias </option>';
@@ -182,7 +184,22 @@ $( function() {
                     template += `<option value="${categorias[i].categoriaNom}">${categorias[i].categoriaNom}</option>`
                 }
                 $('#categoria').html(template);
-            }
+            }   
+        });
+    }
+
+    function fetchProductes(){
+        $.ajax({
+            url: 'query-products.php',
+            type: 'GET',
+            async: false,
+            success: function(response){
+                let products = JSON.parse(response);
+                hideOrShow(document.getElementById("noResult"), "hide");
+                hideOrShow(document.getElementById("resMapa"), "hide");
+                hideOrShow(document.getElementById("card-container"), "show");
+                cards(products);
+            }   
         });
     }
 });

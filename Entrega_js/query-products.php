@@ -19,6 +19,8 @@
             'preu' => $row['preu'],
             'categoria' => $row['categoria'],
             'data_publicacio' => $row['data_publicacio'],
+            'foto' => $row['foto1'],
+            'id' => $row['id']
         );
     }
 

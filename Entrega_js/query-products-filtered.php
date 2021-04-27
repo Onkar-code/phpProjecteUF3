@@ -38,7 +38,7 @@
         if ($numFiltros > 0) {
             $query .= " AND ";
         }
-        $query .= " LOWER(nom) LIKE LOWER(?) OR LOWER(descripcio) LIKE LOWER(?) ";
+        $query .= " LOWER(p.nom) LIKE LOWER(?) OR LOWER(p.descripcio) LIKE LOWER(?) ";
         $numFiltros++;
         $consultaPreparada=true;
     }
@@ -55,12 +55,12 @@
         if ($numFiltros > 0) {
             $query .= " AND ";
         }
-        $query .= " preu BETWEEN $precioMin AND $precioMax ";
+        $query .= " p.preu BETWEEN $precioMin AND $precioMax ";
         $numFiltros++;
     }
 
     //Ordenar
-    $query .= " ORDER BY preu $ordenarPrecio, data_publicacio $ordenarFecha ";
+    $query .= " ORDER BY p.preu $ordenarPrecio, p.data_publicacio $ordenarFecha ";
     
     $json = array();
 

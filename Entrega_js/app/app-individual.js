@@ -5,7 +5,6 @@ $( function() {
     function fetchTasks(){
         var urlParams = new URLSearchParams(window.location.search);
         let id = urlParams.get('id');
-        console.log(id);
         $.post('query-producte-individual.php', {id: id}, function(response){
             producte = JSON.parse(response);
             producteInfo(producte);
