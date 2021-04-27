@@ -24,17 +24,6 @@
   outline: 2px solid red;
 }
 
-.loginRegister{
-  padding-left: 15%;
-  margin-top: 5px;
-  display:flex;
-  justify-content: flex-start;
-}
-
-.register{
-  padding-left: 15px;
-}
-
 #map{
   margin: auto;
   width: 800px;

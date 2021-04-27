@@ -5,27 +5,16 @@
 	}
 	require_once('database/dbConnection_local.php');
 
-    $id = $_POST['id'];
-    $sql = "SELECT * FROM producte WHERE id = $id";
-    $statement = $db->query($sql);
+    $id = $_GET['id'];
+    $sql = "SELECT * FROM producte WHERE id = ?";
+    $statement = $db->prepare($sql);
+	$statement->execute(array($id));
     $result = $statement->fetch(PDO::FETCH_ASSOC);
     $name = $result['nom'];
     $desc = $result['descripcio'];
     $price = explode('.', $result['preu']);
     $price1 = $price[0];
-    $price2 = $price[1];
-
-    //Hacemos update del producto en la bd y devolvemos a la zona privada
-	if (isset($_POST['confirmEdit'])) {
-		$id = ($_POST['id']);
-		$price = $_POST['price1'] . '.' . $_POST['price2'];
-    	$sql = "UPDATE producte SET nom = ?, descripcio = ?, preu = ? WHERE id = $id";
-    	$statement = $db->prepare($sql);
-    	$statement->execute(array($_POST['name'], $_POST['desc'], $price));
-
-    	//Tenemos que usar GET para poder volver al mismo producto en producteInfo
-    	header('location: private.php');
-	}
+    $price2 = $price[1];	
 ?>
 
 <!DOCTYPE html>
@@ -36,45 +25,50 @@
 	<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
 	<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
 	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+	<script src="app/edit.js"></script>
 </head>
 <body>
 	<div class="container pt-5">
 		<!--Link a la zona privada-->
 		<button type="button" class="btn btn-primary" onClick="window.location.href='private.php'">Volver a la zona privada</button>
 		
-		<h4 class="text-center">Subir nuevo producto</h4>
-		<form action="upload.php" method="post" enctype="multipart/form-data">
+		<h4 class="text-center">Editar producto</h4>
+		<form action="confirmEdit.php" method="post">
 			<div class="form-row mt-5 mb-4">
-				<div class="col-4">
-					<label for="name">Nombre*</label>
-					<input type="text" class="form-control" id="name" value="<?php echo isset($_POST['name']) ? $_POST['name'] : '' ?>" maxlength="30" name="name">
+				<div class="col-6">
+					<label for="name">Nombre</label>
+					<input type="text" class="form-control" id="name" value="<?php echo $name; ?>" maxlength="30" name="name">
 					<div class="invalid-feedback"></div>
 				</div>
-				</div class="col-4">
-					<label for="price1">Precio*</label>
-					<input type="text" class="form-control" id="price1" value="<?php echo isset($_POST['price1']) ? $_POST['price1'] : ''; ?>" maxlength="4" name="price1" pattern="^\d+$"/>
+
+				<div class="col-1"></div>
+				<!--Parte entera-->
+				<div class="col-2">
+					<label>Precio</label>
+					<input type="text" class="form-control text-right" id="price1" value="<?php echo $price1; ?>" maxlength="4" name="price1">
 					<div class="invalid-feedback"></div>
-					<!--Punto decimal-->
-					.
 				</div>
-				</div class="col-4">
-					<input type="text" class="form-control" id="price2" value="<?php echo isset($_POST['price2']) ? $_POST['price2'] : '00'; ?>" maxlength="2" name="price2" pattern="^\d{2}$"/>
-					<!--Símbolo de euro-->
-					€
+
+				<!--Parte decimal-->
+				<div class="col-2">
+					<label>.</label>
+					<input type="text" class="form-control" id="price2" value="<?php echo $price2; ?>" maxlength="2" name="price2">
 					<div class="invalid-feedback"></div>
+				</div>
+				<div class="col-1">
+					<label class="invisible">€</label>
+					<div class="mt-2">€</div>
 				</div>
 			</div>
 
 			<div class="form-row mb-4">
 				<div class="col-12">
-					<label for="desc">Descripción*</label>
-					<input type="text" class="form-control" id="desc" value="<?php echo isset($_POST['desc']) ? $_POST['desc'] : '' ?>" maxlength="200" size="100" name="desc">
+					<label for="desc">Descripción</label>
+					<input type="text" class="form-control" id="desc" value="<?php echo $desc; ?>" maxlength="200" name="desc"></input>
 					<div class="invalid-feedback"></div>
 				</div>	
 			</div>
 
-
-
-    <!--Depende de si está subiendo producto nuevo o editando existente, el nombre de la variable POST cambia-->
-        <input type="hidden" name="id" value="<?php echo $id ?>" />
-        <input type="submit" name="confirmEdit" />
+			<button class="btn btn-success" type="submit" name="edit">Guardar cambios</button>
+			<input type="hidden" name="id" value="<?php echo $id ?>" />
+			<button type="button" class="btn btn-secondary" onClick="window.history.go(-1)">Cancelar</button>

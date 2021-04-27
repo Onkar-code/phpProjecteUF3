@@ -1,52 +1,15 @@
-
-<?php
-        session_start();
-
-        //Si hay sesión iniciada, mostramos opciones de volver a la zona privada o cerrar sesión
-        if (isset($_SESSION['userId'])) {
-            echo "<a href='private.php'>Volver a la zona privada</a><br><br>
-                <form method='POST' action='private.php'>
-                    <input type='submit' name='logout' value='Cerrar sesión'></button>
-                </form><br>";
-
-        //Si no hay sesión iniciada, mostramos opciones de hacer login o registrarse
-        //<input type='submit' value='Login'></button>
-        } else {
-            echo "<div class='loginRegister'>
-                    <div class='login'>
-                    <form action='login.php'>
-                        <button type='submit' class='btn btn-primary'>Login</button>
-                    </form>
-                    </div>
-                    <div class='register'>
-                    <form action='register.php'>
-                        <button type='submit' class='btn btn-primary' >Register</button>
-                    </form>
-                    </div>
-                </div>";
-        }
-    ?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-
+    <title>Zona pública</title>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
-
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
-
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-    </script>
-    <!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous"> -->
-
 	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
-
     <link rel="stylesheet" href="css/style.css">
-    <!-- <link rel="stylesheet" href="https://bootswatch.com/4/lux/bootstrap.min.css"> -->
 
     <!-- Load Leaflet from CDN -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
@@ -71,6 +34,30 @@
 
 </head>
 <body>
+    <div class="container pt-5">
+        <?php
+            session_start();
+
+            //Si hay una sesión iniciada, añadimos links para volver a la zona privada o para cerrar sesión
+            if (isset($_SESSION['userId'])) {
+                echo <<<EOT
+                <button type="button" class="btn btn-primary mb-4" onClick="window.location.href='private.php'">Volver a la zona privada</button>
+                <form class="ml-1" action="private.php" method="post">
+                    <div class="form-row mb-4">
+                        <button class="btn btn-secondary" type="submit" name="logout">Cerrar sesión</button>
+                    </div>
+                </form>
+                EOT;
+
+            } else { //Si no hay sesión iniciada, mostramos opciones de hacer login o registrarse
+                echo <<<EOT
+                    <button type="button" class="btn btn-primary" onClick="window.location.href='login.php'">Login</button>
+                    <button type="button" class="btn btn-primary" onClick="window.location.href='register.php'">Registrarse</button>
+                EOT;
+            }
+        ?>
+    </div>
+
     <div class="content">
         <form id="consulta">
             <div class="principal pt-4 pl-4 pr-4 pb-2">
@@ -111,19 +98,19 @@
                     <input type="checkbox" class="checkbox" name="skills" value="Mapa">Mapa
             </label>
             </div>
-            <div class="send-consulta pl-4 pb-4">
-                <form>
-                    Realizar consulta: <input type="submit" class='btn btn-primary' id="fetch-data" name="filtros" value="Enviar" /><br><br>
+            <div class="send-consulta pl-4 pb-4 row">
+                <form class="col-2">
+                    <button type="submit" class='btn btn-primary' id="fetch-data" name="filtros">Realizar consulta</button>
                 </form>
-                <form id="borrar-filtros">
-                    Borrar filtros: <input type="submit" class='btn btn-primary' name="sinfiltros" value="Enviar" />
+                <form class="col-2" id="borrar-filtros">
+                    <button type="submit" class='btn btn-primary' name="sinfiltros">Borrar filtros</button>
                 </form>
             </div>
         </form>
     </div>
 
     <div id="resultados">
-        <div id="card-container" class="container-fluid py-2 bg-primary">
+        <div id="card-container" class="container-fluid py-2">
             <div id="cardList" class="row">
             </div>
         </div>
@@ -134,7 +121,6 @@
         <h1 id="noResult" class="pt-4" style="text-align:center;"> No se han encontrado resultados<h1>
         
     </div>
-
     <script src="app/app.js"></script>
 </body>
 </html>

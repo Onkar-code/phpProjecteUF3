@@ -1,4 +1,5 @@
-Drop table if exists Fotografies;
+create database testdb;
+
 Drop table if exists Producte;
 Drop table if exists Client;
 

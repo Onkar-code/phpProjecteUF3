@@ -45,7 +45,7 @@ $( function() {
         });
     });
 
-    //Apliar filtros y obtener datos con AJAX    
+    //Aplicar filtros y obtener datos con AJAX    
     $('#consulta').submit(function(e){
         const postData = {
             categoria: $('#categoria').val(),
@@ -99,6 +99,7 @@ $( function() {
             x.style.display = "block";
         }
     }
+
     //Listado en cards
     function cards(products){
         let template = '';
@@ -106,7 +107,7 @@ $( function() {
             template +=
             `<div productId="${products[i].id}"id="cards-content" class="col align-self-center ">
               <div class="card" style="width: 18rem;">
-                <img src='imagenes/`+products[i].foto+`' class="card-img-top" >
+                <img src='imagenes/`+products[i].foto+`' class="card-img-top" style="max-height:250px; max-width: 250px; object-fit:contain">
                 <div class="card-body">
                   <h5 class="card-title">`+products[i].nom+`</h5>
                   <h6 class="card-subtitle mb-2 text-muted">`+products[i].preu+`</h6>
@@ -126,7 +127,7 @@ $( function() {
         e.preventDefault();
     })
 
-    //TODO desarrollar mapa
+    //Mapa
     function mapa(products){
         loadMap();
         products.forEach( producte => { 
@@ -136,7 +137,7 @@ $( function() {
             // map.setView([lat, lng], 15);
             marker.bindPopup(`<div productId="${producte.id}"id="cards-content" class="col align-self-center ">
             <div class="card" style="width: 18rem;">
-              <img src='imagenes/`+producte.foto+`' class="card-img-top img-thumbnail" id="marker-img" style="max-height:100px; max-width: 150px; object-fit: cover;">
+              <img src='imagenes/`+producte.foto+`' class="card-img-top" id="marker-img" style="max-height:100px; max-width: 100px; object-fit: contain;">
               <div class="card-body">
                 <h5 class="card-title">`+producte.nom+`</h5>
                 <h6 class="card-subtitle mb-2 text-muted">`+producte.preu+`</h6>
@@ -146,11 +147,9 @@ $( function() {
           </div>`);    
 
             marker.on('click', () => {
-                    marker.openPopup();
-                });
+                marker.openPopup();
+            });
         });
-        
-
     }
 
     // MAPS FUNCTIONS
@@ -158,7 +157,6 @@ $( function() {
 
         map = L.map('map').setView([41.388, 2.159], 12);
         L.esri.basemapLayer('Topographic').addTo(map);
-
     }
 
     //obtener todos los productos mediante AJAX

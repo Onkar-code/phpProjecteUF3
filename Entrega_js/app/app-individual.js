@@ -1,7 +1,7 @@
 $( function() {
     fetchTasks();
     
-    //obatener producto por id mediante AJAX
+    //obtener producto por id mediante AJAX
     function fetchTasks(){
         var urlParams = new URLSearchParams(window.location.search);
         let id = urlParams.get('id');
@@ -15,11 +15,7 @@ $( function() {
     //renderizar en el DOM la tabla con la info del producto
     function producteInfo(producte){
         console.log(producte);
-        let template= '';
-        if ($('#load-text').length > 0) {
-            $('#load-text').remove();
-        }
-        template = `<div id="table-content"
+        let template = `<div id="table-content"
                     <div class='table'><table class='cards-table'>
                                 <thead>
                                     <tr>

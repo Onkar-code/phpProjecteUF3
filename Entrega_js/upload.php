@@ -78,7 +78,7 @@
 			<div class="form-row mb-4">
 				<div class="col-12">
 					<label for="desc">Descripción*</label>
-					<textarea type="text" class="form-control" id="desc" value="<?php echo isset($_POST['desc']) ? $_POST['desc'] : '' ?>" maxlength="200" name="desc"></textarea>
+					<input type="text" class="form-control" id="desc" value="<?php echo isset($_POST['desc']) ? $_POST['desc'] : '' ?>" maxlength="200" name="desc"></input>
 					<div class="invalid-feedback"></div>
 				</div>	
 			</div>
