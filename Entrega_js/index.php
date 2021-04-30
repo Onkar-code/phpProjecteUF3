@@ -1,9 +1,6 @@
 <!DOCTYPE html>
-<html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Zona pública</title>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
@@ -56,62 +53,84 @@
                 EOT;
             }
         ?>
-    </div>
 
-    <div class="content">
         <form id="consulta">
-            <div class="principal pt-4 pl-4 pr-4 pb-2">
-                <div class="filtros">
+            <div class="row">
+                <div class="col-9">
                     <h3> Filtros </h3>
-                    Categoria: <select id="categoria" name="categoria">
-
-                    </select><br><br>
-
-                    ¿Qué buscas? <input id="search" type="text" name="search" placeholder="Buscar por texto"/><br><br>
                 </div>
-                <div id="rango-precio" class="pl-4 mt-3">
-
-                    Rango de precio en €:
-                    <input class="precio" id="precioMax" type="text" name="search" placeholder="Precio máximo"/><br>
-                    <input class="precio" id="precioMin" type="text" name="search" placeholder="Precio mínimo"/>
-                    <div class="mt-3 alert" id="feedback"></div>
-                </div>
-
-                <div class="ordenar ml-4">
+                <div class="col-3">
                     <h3> Ordenación </h3>
-
-                    Precio: <select id="ordenarPrecio" name="ordenarPrecio">
-                        <option value="ASC">ASC</option>
-                    <option value="DESC">DESC</option>
-                    </select><br><br>
-
-                    Fecha: <select id="ordenarFecha" name="ordenarFecha">
-                        <option value="ASC">ASC</option>
-                        <option value="DESC">DESC</option>
-                    </select><br><br>
                 </div>
             </div>
-            <div class="pl-4">
-            <label  class="checkbox-inline">
-                <input type="checkbox" id="checkbox" class="checkbox" name="skills" id="radio" value="Listado" checked="true">Listado
-            </label>
-            <label class="checkbox-inline">
-                    <input type="checkbox" class="checkbox" name="skills" value="Mapa">Mapa
-            </label>
+            <div class="form-row">
+                <div class="col-4">
+                    <div class="form-group">
+                        <label for="categoria">Categoria:</label>
+                        <select class="form-control" id="categoria" name="categoria"></select>
+                    </div>
+                    <div class="form-group">
+                        <label for="search">¿Qué buscas?</label>
+                        <input class="form-control" id="search" type="text" maxlength="200" placeholder="Buscar por texto"/>
+                    </div>
+                </div>
+                <div class="col-1"></div>
+
+                <div class="col-3">
+                    <div class="form-group">
+                        <label for="precioMax">Precio máximo:</label>
+                        <input class="form-control" id="precioMax" type="text" placeholder="Precio máximo"/>
+                        <div class="invalid-feedback">
+                        El precio debe contener sólo números.
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="precioMax">Precio mínimo:</label>
+                        <input class="form-control" id="precioMin" type="text" placeholder="Precio mínimo"/>
+                        <div class="invalid-feedback">
+                        El precio debe contener sólo números.
+                        </div>
+                        <div id="price-feedback" class="alert mt-2"></div>
+                    </div>
+                </div>
+                <div class="col-1"></div>
+
+                <div class="col-3">
+                    <div class="form-group">
+                        <label for="ordenarPrecio">Precio:</label>
+                        <select class="form-control" id="ordenarPrecio">
+                            <option value="ASC">ASC</option>
+                            <option value="DESC">DESC</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="ordenarFecha">Fecha:</label>
+                        <select class="form-control" id="ordenarFecha">
+                            <option value="ASC">ASC</option>
+                            <option value="DESC">DESC</option>
+                        </select>
+                    </div>
+                </div>
             </div>
-            <div class="send-consulta pl-4 pb-4 row">
-                <form class="col-2">
-                    <button type="submit" class='btn btn-primary' id="fetch-data" name="filtros">Realizar consulta</button>
-                </form>
-                <form class="col-2" id="borrar-filtros">
-                    <button type="submit" class='btn btn-primary' name="sinfiltros">Borrar filtros</button>
-                </form>
+
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="inlineRadioOptions" id="list" checked="true">
+                <label class="form-check-label" for="list">Listado</label>
+            </div>
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="inlineRadioOptions" id="map-radio">
+                <label class="form-check-label" for="map">Mapa</label>
+            </div>
+
+            <div class="ml-1 mt-3 mb-3 row">
+                <button type="submit" class='btn btn-success mr-3'>Realizar consulta</button>
+                <button type="button" id="borrar" class='btn btn-secondary' onClick="location.reload()">Borrar filtros</button>
             </div>
         </form>
     </div>
 
     <div id="resultados">
-        <div id="card-container" class="container-fluid py-2">
+        <div id="card-container" class="container my-5">
             <div id="cardList" class="row">
             </div>
         </div>
@@ -119,9 +138,9 @@
             <div id="map">
             </div>
         </div>
-        <h1 id="noResult" class="pt-4" style="text-align:center;"> No se han encontrado resultados<h1>
-        
+        <h1 id="noResult" class="pt-4"> No se han encontrado resultados<h1>
     </div>
+    
     <script src="app/app.js"></script>
 </body>
 </html>

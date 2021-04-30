@@ -1,81 +1,12 @@
 let map, lat, lng;
 
-$(document).ready(function(){
+$( function() {
     document.getElementById("precioMax").addEventListener("blur",validatePrice);
     document.getElementById("precioMin").addEventListener("blur",validatePrice);
-    var regex = /^\d*[.]?\d*$/;
-    //comprobación form Rango precios
-    $("#precioMax").on("input", function(){
-        var inputVal = $(this).val();
-        if(regex.test(inputVal)){
-            $(this).removeClass("error").addClass("success");
-        } else{
-            $(this).removeClass("success").addClass("error");
-        }
-    });
 
-    $("#precioMin").on("input", function(){
-        var inputVal = $(this).val();
-        if(regex.test(inputVal)){
-            $(this).removeClass("error").addClass("success");
-        } else{
-            $(this).removeClass("success").addClass("error");
-        }
-    });
-
-    //comprobación form Search Box
-    const regex_serach = /^(?:[A-Za-z]+)(?:[A-Za-z0-9 _]*)$/;
-    $("#search").on("input", function(){
-        var inputVal = $(this).val();
-        if(regex_serach.test(inputVal) && inputVal.length < 201 || inputVal.length == 0){
-            $(this).removeClass("error").addClass("success");
-        } else{
-            $(this).removeClass("success").addClass("error");
-        }
-    });
-    function validatePrice(){
-        let precioMax = $('#precioMax').val();
-        let precioMin = $('#precioMin').val();
-        console.log(precioMax + " " +  precioMax);
-        if ( precioMax < precioMin ){
-            setErrorPrice("El precio máximo ha de ser mayor que el precio mínimo.");
-            
-        } else {
-            setSuccessPrice();
-            
-        }
-    }
-
-    function setErrorPrice(message) {
-        feedback = document.getElementById("feedback");
-        feedback.classList.add("alert-danger");
-        feedback.innerHTML = message;
-        $('#precioMax').removeClass("success").addClass("error");
-        $('#precioMin').removeClass("success").addClass("error");
-    }
-      
-    function setSuccessPrice() {
-        feedback = document.getElementById("feedback");
-        if (feedback.classList.contains("alert-danger")){
-            feedback.classList.remove("alert-danger");
-        }
-        $('#precioMax').removeClass("error").addClass("success");
-        $('#precioMin').removeClass("error").addClass("success");
-    }
-});
-
-$( function() {
-    //Obtener categoria mediante ajax
+    //Obtener categorias y productos mediante ajax
     fetchCategories();
     fetchProductes();
-
-    $(document).ready(function(){
-        $('[type="checkbox"]').change(function(){
-          if(this.checked){
-             $('[type="checkbox"]').not(this).prop('checked', false);
-          }
-        });
-    });
 
     //Aplicar filtros y obtener datos con AJAX    
     $('#consulta').submit(function(e){
@@ -87,7 +18,6 @@ $( function() {
             precioMax: $('#precioMax').val(),
             precioMin: $('#precioMin').val(),
         };
-        console.log(postData.precioMin);
         $.post('query-products-filtered.php', postData, function(response){
             let products = JSON.parse(response);
             if ( "resultado" in products){
@@ -98,7 +28,7 @@ $( function() {
                 hideOrShow(document.getElementById("noResult"), "show");
 
             }else{
-                if ($('#checkbox').is(':checked')) {
+                if ($('#list').is(':checked')) {
                     hideOrShow(document.getElementById("noResult"), "hide");
                     hideOrShow(document.getElementById("resMapa"), "hide");
                     hideOrShow(document.getElementById("card-container"), "show");
@@ -127,8 +57,8 @@ $( function() {
         let template = '';
         for (var i=0; i < products.length; i++){
             template +=
-            `<div productId="${products[i].id}"id="cards-content" class="col align-self-center ">
-              <div class="card" style="width: 18rem;">
+            `<div productId="${products[i].id}"id="cards-content" class="col align-self-center">
+              <div class="card my-2" style="width: 18rem;">
                 <img src='imagenes/`+products[i].foto+`' class="card-img-top" style="max-height:250px; max-width: 250px; object-fit:contain">
                 <div class="card-body">
                   <h5 class="card-title">`+products[i].nom+`</h5>
@@ -214,3 +144,37 @@ $( function() {
         });
     }
 });
+
+function validatePrice(){
+    var maxPrice = document.getElementById("precioMax");
+    var minPrice = document.getElementById("precioMin");
+    var maxValid = validateSinglePrice(maxPrice);
+    var minValid = validateSinglePrice(minPrice);
+    console.log(maxValid);
+    if (!maxValid || !minValid) {
+        return;
+    }
+    var feedback = document.getElementById("price-feedback");
+    if (maxPrice.value < minPrice.value){
+        feedback.innerHTML = "El precio máximo ha de ser mayor que el precio mínimo";
+        feedback.classList.add("alert-danger");
+    } else {
+        feedback.innerHTML = "";
+        feedback.classList.remove("alert-danger");
+    }
+}
+
+function validateSinglePrice(price) {
+    var regex = /^\d*[.]?\d*$/;
+    if (regex.test(price.value)) {
+        price.classList.remove("is-invalid");
+        return true;
+    }
+    else {
+        price.classList.add("is-invalid");
+            var feedback = document.getElementById("price-feedback");
+        feedback.innerHTML = "";
+        feedback.classList.remove("alert-danger");
+        return false;
+    }
+}

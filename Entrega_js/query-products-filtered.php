@@ -90,7 +90,7 @@
     } else {
         $result=$db->query($query);
         if ($result->rowCount() == 0) {
-            echo "<h1>No s'han trobat resultats</h1>";
+            $json = array( 'resultado' => "No s'han trobat resultats");
         }else{
             while ($row=$result->fetch(PDO::FETCH_ASSOC)) {
                   $json[] = array(
